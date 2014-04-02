@@ -1,1 +1,9 @@
-["redis-brain.coffee", "shipit.coffee"]
+[
+	"shipit.coffee",
+	"availability.coffee",
+	"excuse.coffee",
+	"flip.coffee",
+	"reload.coffee",
+	"remember.coffee",
+	"roll.coffee"
+]
