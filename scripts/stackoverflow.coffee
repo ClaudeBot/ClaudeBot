@@ -56,6 +56,6 @@ getQuestions = (msg, site = false) ->
                         msg.reply "Your query ('#{seQuery}') returned no results on #{seSite}."
                         return
 
-                    for question in parsedData.items[0..5]
+                    for question in parsedData.items[0..4]
                         msg.send "#{question.title} - #{question.link}"
         )()
