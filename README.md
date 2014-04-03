@@ -1,157 +1,81 @@
-# Hubot
+# ClaudeBot
 
-This is a version of GitHub's Campfire bot, hubot. He's pretty cool.
+Totally not trying to poke fun at the word cloud. *\*cough CloudIRC\**
+This is a clone of GitHub's Campfire bot, [Hubot](https://hubot.github.com/). He's pretty chill. 
+It is also [WalaoBot's](https://github.com/MrSaints/WalaoBot) highly evolved, French cousin. *Oui, oui.*
 
-This version is designed to be deployed on [Heroku][heroku]. This README was generated for you by hubot to help get you started. Definitely update and improve to talk about your own instance, how to use and deploy, what functionality he has, etc!
+**What do you call a French bot that has been attacked by a bear?** Claude bot. *\*Ba dum ts\**
 
-[heroku]: http://www.heroku.com
+This version is designed to protect and serve the great people of [FyreChat IRC #sandbox](http://fyrechat.net/) (using [Hubot IRC adapter](https://github.com/nandub/hubot-irc)); and to be deployed on [Heroku](http://www.heroku.com).
 
-### Testing Hubot Locally
+The original, generated Hubot `README` can be found [here](https://github.com/github/hubot/blob/master/src/templates/README.md). 
+Additional documentation can be found [hubot's GitHub](https://github.com/github/hubot/tree/master/docs).
 
-You can test your hubot by running the following.
 
-    % bin/hubot
+## Features
 
-You'll see some start up output about where your scripts come from and a
-prompt.
-
-    [Sun, 04 Dec 2011 18:41:11 GMT] INFO Loading adapter shell
-    [Sun, 04 Dec 2011 18:41:11 GMT] INFO Loading scripts from /home/tomb/Development/hubot/scripts
-    [Sun, 04 Dec 2011 18:41:11 GMT] INFO Loading scripts from /home/tomb/Development/hubot/src/scripts
-    Hubot>
-
-Then you can interact with hubot by typing `hubot help`.
-
-    Hubot> hubot help
-
-    Hubot> animate me <query> - The same thing as `image me`, except adds a few
-    convert me <expression> to <units> - Convert expression to given units.
-    help - Displays all of the help commands that Hubot knows about.
-    ...
+As ClaudeBot is *somewhat* biologically identical to Hubot, it derives Hubot's default functionality and script. 
+Unlike its twin in its natural form however, ClaudeBot is also exposed to custom scripts from the [hubot-scripts](https://github.com/github/hubot-scripts) package. A full list of enabled scripts may be found in the `hubot-scripts.json` file in this repo.
 
 
 ### Scripting
 
-Take a look at the scripts in the `./scripts` folder for examples.
-Delete any scripts you think are useless or boring.  Add whatever functionality you
-want hubot to have. Read up on what you can do with hubot in the [Scripting Guide](https://github.com/github/hubot/blob/master/docs/scripting.md).
+ClaudeBot is open to evolution. It may be extended to become more alpha, or mutated to become more primitive and/or defunct. 
+The [Scripting Guide](https://github.com/github/hubot/blob/master/docs/scripting.md) will provide you with more information on how you can make this brainless slave more exciting or useless and boring. 
 
-### Redis Persistence
+You can modify part of its genetic makeup and/or add whatever functionality you want it to have via the `./scripts` folder and the `hubot-scripts.json` file in this repo. 
+Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) for a list of available genes that you can activate.
 
-If you are going to use the `redis-brain.coffee` script from `hubot-scripts`
-(strongly suggested), you will need to add the Redis to Go addon on Heroku which requires a verified
-account or you can create an account at [Redis to Go][redistogo] and manually
-set the `REDISTOGO_URL` variable.
 
-    % heroku config:add REDISTOGO_URL="..."
+### Master Ian's Commands
 
-If you don't require any persistence feel free to remove the
-`redis-brain.coffee` from `hubot-scripts.json` and you don't need to worry
-about redis at all.
+- **wiki \<query\>:** Search Wikipedia for articles using the query (returns the first 5 matches)
+- **hubot ttv \<category\>:** Perform a case-sensitive search on Twitch.tv for live streams in a game category (returns the first 5)
+- **hubot ttv featured:** Return the first 5 featured live streams on Twitch.tv
+- **stack [on] <site> [about] <query>:** Search on a Stack Exchange site for questions using the query (returns the first 5 matches)
+- **so \<query\>:** Search on Stack Overflow for questions using the query (shortcut for stack command)
+- **cdnjs \<query\>:** Search the cdnJS script repository for the URL to the latest library available using the query (returns the first 5 matches)
+- **cdnjs strictly \<query\>:** Performs the default search, but with the addition of a strict list search using Underscore.js (returns the first match)
 
-[redistogo]: https://redistogo.com/
 
-## Adapters
+### Brain
 
-Adapters are the interface to the service you want your hubot to run on. This
-can be something like Campfire or IRC. There are a number of third party
-adapters that the community have contributed. Check
-[Hubot Adapters][hubot-adapters] for the available ones.
+It does not have a brain yet and thus there is no persistence. 
+`redis-brain.coffee` was removed earlier on from `hubot-scripts.json` ...
 
-If you would like to run a non-Campfire or shell adapter you will need to add
-the adapter package as a dependency to the `package.json` file in the
-`dependencies` section.
 
-Once you've added the dependency and run `npm install` to install it you can
-then run hubot with the adapter.
+## Usage
 
-    % bin/hubot -a <adapter>
+### Testing (Locally)
 
-Where `<adapter>` is the name of your adapter without the `hubot-` prefix.
+You can make ClaudeBot run in your local shell environment by commanding the following:
 
-[hubot-adapters]: https://github.com/github/hubot/blob/master/docs/adapters.md
+    % bin/hubot
 
-## hubot-scripts
+Then, you can start interacting with ClaudeBot by typing `hubot help` (it has not quite absorbed the fact it is now called Claude, at least not locally). For a list of basic commands, refer to [hubot's documentation](https://github.com/github/hubot/tree/master/docs).
 
-There will inevitably be functionality that everyone will want. Instead
-of adding it to hubot itself, you can submit pull requests to
-[hubot-scripts][hubot-scripts].
+### Adapters
 
-To enable scripts from the hubot-scripts package, add the script name with
-extension as a double quoted string to the `hubot-scripts.json` file in this
-repo.
+ClaudeBot - as mentioned earlier - was designed to be a slave to the great people of an IRC channel. 
+Thus, to make it serve differently it needs to be commanded the following:
 
-[hubot-scripts]: https://github.com/github/hubot-scripts
+    % bin/hubot -a irc
 
-## external-scripts
+You may replace irc with your desired [Hubot adapter](https://github.com/github/hubot/blob/master/docs/adapters.md).
 
-Tired of waiting for your script to be merged into `hubot-scripts`? Want to
-maintain the repository and package yourself? Then this added functionality
-maybe for you!
 
-Hubot is now able to load scripts from third-party `npm` packages! To enable
-this functionality you can follow the following steps.
+### Deployment
 
-1. Add the packages as dependencies into your `package.json`
-2. `npm install` to make sure those packages are installed
-
-To enable third-party scripts that you've added you will need to add the package
-name as a double quoted string to the `external-scripts.json` file in this repo.
-
-## Deployment
+Once it is battle ready, send it off for a [tour in Heroku](https://github.com/github/hubot/blob/master/docs/deploying/heroku.md):
 
     % heroku create --stack cedar
     % git push heroku master
     % heroku ps:scale app=1
 
-If your Heroku account has been verified you can run the following to enable
-and add the Redis to Go addon to your app.
+Upon deployment, it will take orders / commands from `Procfile`. 
+You can change its name here and tell it how it should behave in a [dyno](https://devcenter.heroku.com/articles/procfile).
 
-    % heroku addons:add redistogo:nano
 
-If you run into any problems, checkout Heroku's [docs][heroku-node-docs].
-
-You'll need to edit the `Procfile` to set the name of your hubot.
-
-More detailed documentation can be found on the
-[deploying hubot onto Heroku][deploy-heroku] wiki page.
-
-### Deploying to UNIX or Windows
-
-If you would like to deploy to either a UNIX operating system or Windows.
-Please check out the [deploying hubot onto UNIX][deploy-unix] and
-[deploying hubot onto Windows][deploy-windows] wiki pages.
-
-[heroku-node-docs]: http://devcenter.heroku.com/articles/node-js
-[deploy-heroku]: https://github.com/github/hubot/blob/master/docs/deploying/heroku.md
-[deploy-unix]: https://github.com/github/hubot/blob/master/docs/deploying/unix.md
-[deploy-windows]: https://github.com/github/hubot/blob/master/docs/deploying/unix.md
-
-## Campfire Variables
-
-If you are using the Campfire adapter you will need to set some environment
-variables. Refer to the documentation for other adapters and the configuraiton
-of those, links to the adapters can be found on [Hubot Adapters][hubot-adapters].
-
-Create a separate Campfire user for your bot and get their token from the web
-UI.
-
-    % heroku config:add HUBOT_CAMPFIRE_TOKEN="..."
-
-Get the numeric IDs of the rooms you want the bot to join, comma delimited. If
-you want the bot to connect to `https://mysubdomain.campfirenow.com/room/42` 
-and `https://mysubdomain.campfirenow.com/room/1024` then you'd add it like this:
-
-    % heroku config:add HUBOT_CAMPFIRE_ROOMS="42,1024"
-
-Add the subdomain hubot should connect to. If you web URL looks like
-`http://mysubdomain.campfirenow.com` then you'd add it like this:
-
-    % heroku config:add HUBOT_CAMPFIRE_ACCOUNT="mysubdomain"
-
-[hubot-adapters]: https://github.com/github/hubot/blob/master/docs/adapters.md
-
-## Restart the bot
-
-You may want to get comfortable with `heroku logs` and `heroku restart`
-if you're having issues.
+### Management
+- **Resurrect:** `heroku restart`
+- **Battle report:** `heroku logs`
