@@ -32,7 +32,7 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 - **wiki \<query\>:** Search Wikipedia for articles using the query (returns the first 5 matches)
 - **hubot ttv \<category\>:** Perform a case-sensitive search on Twitch.tv for live streams in a game category (returns the first 5)
 - **hubot ttv featured:** Return the first 5 featured live streams on Twitch.tv
-- **stack [on] <site> [about] <query>:** Search on a Stack Exchange site for questions using the query (returns the first 5 matches)
+- **stack [on] \<site\> [about] <query>:** Search on a Stack Exchange site for questions using the query (returns the first 5 matches)
 - **so \<query\>:** Search on Stack Overflow for questions using the query (shortcut for stack command)
 - **cdnjs \<query\>:** Search the cdnJS script repository for the URL to the latest library available using the query (returns the first 5 matches)
 - **cdnjs strictly \<query\>:** Performs the default search, but with the addition of a strict list search using Underscore.js (returns the first match)
@@ -41,7 +41,8 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 ### Brain
 
 It does not have a brain yet and thus there is no persistence. 
-`redis-brain.coffee` was removed earlier on from `hubot-scripts.json` ...
+`redis-brain.coffee` was removed earlier on from `hubot-scripts.json` ... 
+It has no memory of you.
 
 
 ## Usage
