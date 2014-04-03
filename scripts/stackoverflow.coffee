@@ -1,6 +1,6 @@
 # Description:
-#   Search a Stack Exchange website and return links the first five questions.
-#   Based on sosearch.coffee, but improved to utilise Stack Exchange's v2.2 API.
+#   Stack Exchange API - Search questions / answers
+#   Based on sosearch.coffee, but improved to utilise Stack Exchange's v2.2 API
 #
 # Dependencies:
 #   none
@@ -9,8 +9,8 @@
 #   None
 #
 # Commands:
-#   hubot stack [on] <site> [about] <query> - Search on a Stack Exchange site for questions using the query
-#   hubot so <query> - Search on Stack Overflow for questions using the query
+#   hubot stack [on] <site> [about] <query> - Search on a Stack Exchange site for questions using the query (returns first 5 matches)
+#   hubot so <query> - Search on Stack Overflow for questions using the query (shortcut for stack command)
 #
 # Author:
 #   MrSaints
