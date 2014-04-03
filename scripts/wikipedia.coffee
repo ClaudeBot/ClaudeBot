@@ -1,5 +1,5 @@
 # Description:
-#   Wikipedia API - Wikipedia Open Search
+#   Wikipedia API - Search for Wikipedia articles
 #
 # Dependencies:
 #   None
@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot wiki <query> - Search Wikipedia for articles using the query (returns first 5 matches)
+#   hubot wiki <query> - Search Wikipedia for articles using the query (returns the first 5 matches)
 #
 # Author:
 #   MrSaints
@@ -33,7 +33,7 @@ getArticles = (msg) ->
             data = JSON.parse body
 
             if data[1].length is 0
-                msg.reply "Your query ('#{query}') returned no results."
+                msg.reply "Your query ('#{query}') returned no articles."
                 return
 
             for article in data[1][0..4]

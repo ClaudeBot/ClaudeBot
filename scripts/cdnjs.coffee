@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#   hubot cdnjs <query> - Search the cdnJS script repository for the URL to the latest library available using the query (returns first 5 matches)
-#   hubot cdnjs strictly <query> - Performs the default search, but with the addition of a strict list search using Underscore.js (returns first match)
+#   hubot cdnjs <query> - Search the cdnJS script repository for the URL to the latest library available using the query (returns the first 5 matches)
+#   hubot cdnjs strictly <query> - Performs the default search, but with the addition of a strict list search using Underscore.js (returns the first match)
 #
 # Author:
 #   MrSaints
@@ -36,7 +36,7 @@ getLibraries = (msg, strict = false) ->
             data = JSON.parse body
 
             if data.total is 0
-                msg.reply "Your query ('#{query}') returned no results."
+                msg.reply "Your query ('#{query}') returned no libraries."
                 return
 
             if strict
