@@ -72,7 +72,7 @@ You may replace [hubot-irc](https://github.com/nandub/hubot-irc) with your desir
 
 ### Configuring
 
-CaludeBot's genetic information may be set for different environments via environment variables.  
+CaludeBot's genetic information may be set for different environments via environment variables (also known as [config vars on Heroku](https://devcenter.heroku.com/articles/config-vars)).  
 To operate in an IRC environment however, the following environment variables must be set:
 
 - **HUBOT_IRC_SERVER**

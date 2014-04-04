@@ -1,1 +1,1 @@
-web: bin/hubot -a irc -n ClaudeBot -l !
+bot: bin/hubot -a irc -n ClaudeBot -l !
