@@ -39,7 +39,7 @@ module.exports = (robot) ->
 
             for stream in object.streams
                 channel = stream.channel
-                msg.send "#{channel.display_name} (\"#{channel.status}\") - #{channel.url} [Viewers: #{stream.viewers}]"
+                msg.send "#{channel.display_name} (\"#{channel.status}\"): #{channel.url} [Viewers: #{stream.viewers}]"
 
             if object._total > maxResults
                 msg.reply "There are #{object._total - maxResults} other \"#{category}\" live streams."
@@ -53,7 +53,7 @@ module.exports = (robot) ->
 
             for stream in object.streams
                 channel = stream.channel
-                msg.send "#{channel.display_name} (\"#{channel.status}\") - #{channel.url} [Viewers: #{stream.viewers}]"
+                msg.send "#{channel.display_name} (\"#{channel.status}\"): #{channel.url} [Viewers: #{stream.viewers}]"
 
             if object._total > maxResults
                 msg.reply "There are #{object._total - maxResults} other live streams matching your search query: \"#{query}\"."

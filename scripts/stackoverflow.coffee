@@ -57,5 +57,5 @@ getQuestions = (msg, site = false) ->
                         return
 
                     for question in parsedData.items[0..4]
-                        msg.send "#{question.title} - #{question.link}"
+                        msg.send "#{question.title}: #{question.link}"
         )()
