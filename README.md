@@ -9,7 +9,7 @@ It is also [WalaoBot's](https://github.com/MrSaints/WalaoBot) highly evolved, Fr
 This version is designed to protect and serve the great people of [FyreChat IRC #sandbox](http://fyrechat.net/) (using [Hubot IRC adapter](https://github.com/nandub/hubot-irc)); and to be deployed on [Heroku](http://www.heroku.com).
 
 The original, generated Hubot `README` can be found [here](https://github.com/github/hubot/blob/master/src/templates/README.md). 
-Additional documentation can be found [hubot's GitHub](https://github.com/github/hubot/tree/master/docs).
+Additional documentation can be found [Hubot's GitHub](https://github.com/github/hubot/tree/master/docs).
 
 
 ## Features
@@ -32,7 +32,7 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 - **hubot cdnjs search \<query\>:** Returns the CDNJS URL for the first 5 front-end dependencies matching the search \<query\>
 - **hubot cdnjs fetch \<dependency\>:** Returns the CDNJS URL for a specific front-end \<dependency\> (e.g. jQuery)
 - **hubot so \<query\>:** Returns the first 5 questions on Stack Overflow matching the search \<query\> (stack command shortcut)
-- **hubot stack [on] <site> [about] \<query\>:** Returns the first 5 questions on a Stack Exchange \<site\> matching the search <query>
+- **hubot stack [on] <site> [about] \<query\>:** Returns the first 5 questions on a Stack Exchange \<site\> matching the search \<query\>
 - **hubot ttv featured:** Returns the first 5 featured live streams
 - **hubot ttv game \<category\>:** Returns the first 5 live streams in a game \<category\> (case-sensitive)
 - **hubot ttv search \<query\>:** Returns the first 5 live streams matching the search \<query\>
@@ -83,7 +83,7 @@ For a list of IRC configuration options, refer to [hubot-irc's documentation](ht
 
 Remember when I stated that ClaudeBot has not quite absorbed the fact it is now called Claude? 
 Well, you can force its name by passing `(-n|--name) NAME` when running it. 
-You may also set other names (aliases) for it via `(-l|--alias) ALIAS`.
+You may also set another name (alias) for it via `(-l|--alias) ALIAS`.
 
 Oh, and you should probably tell it who its true masters are by setting `HUBOT_AUTH_ADMIN` (comma-separated like a boss).
 
