@@ -20,7 +20,6 @@
 #
 # Todo:
 # - Save favourites?
-#
 
 module.exports = (robot) ->
     maxResults = 5

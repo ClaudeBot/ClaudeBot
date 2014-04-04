@@ -1,16 +1,16 @@
 # Description:
-#   Stack Exchange API - Search questions / answers
+#   Stack Exchange Public API
 #   Based on sosearch.coffee, but improved to utilise Stack Exchange's v2.2 API
 #
 # Dependencies:
-#   none
+#   None
 #
 # Configuration:
 #   None
 #
 # Commands:
-#   hubot stack [on] <site> [about] <query> - Search on a Stack Exchange site for questions using the query (returns the first 5 matches)
-#   hubot so <query> - Search on Stack Overflow for questions using the query (shortcut for stack command)
+#   hubot so <query> - Returns the first 5 questions on Stack Overflow matching the search <query> (stack command shortcut)
+#   hubot stack [on] <site> [about] <query> - Returns the first 5 questions on a Stack Exchange <site> matching the search <query>
 #
 # Author:
 #   MrSaints

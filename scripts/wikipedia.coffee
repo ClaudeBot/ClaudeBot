@@ -1,5 +1,5 @@
 # Description:
-#   Wikipedia API - Search for Wikipedia articles
+#   Wikipedia Public API
 #
 # Dependencies:
 #   None
@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot wiki <query> - Search Wikipedia for articles using the query (returns the first 5 matches)
+#   hubot wiki <query> - Returns the first 5 Wikipedia articles matching the search <query>
 #
 # Author:
 #   MrSaints
