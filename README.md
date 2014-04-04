@@ -29,17 +29,17 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 
 ### Master Ian's Commands
 
-- **hubot cdnjs search \<query\>:** Returns the CDNJS URL for the first 5 front-end dependencies matching the search <query>
-- **hubot cdnjs fetch \<dependency\>:** Returns the CDNJS URL for a specific front-end <dependency> (e.g. jQuery)
-- **hubot so \<query\>:** Returns the first 5 questions on Stack Overflow matching the search <query> (stack command shortcut)
-- **hubot stack [on] <site> [about] \<query\>:** Returns the first 5 questions on a Stack Exchange <site> matching the search <query>
+- **hubot cdnjs search \<query\>:** Returns the CDNJS URL for the first 5 front-end dependencies matching the search \<query\>
+- **hubot cdnjs fetch \<dependency\>:** Returns the CDNJS URL for a specific front-end \<dependency\> (e.g. jQuery)
+- **hubot so \<query\>:** Returns the first 5 questions on Stack Overflow matching the search \<query\> (stack command shortcut)
+- **hubot stack [on] <site> [about] \<query\>:** Returns the first 5 questions on a Stack Exchange \<site\> matching the search <query>
 - **hubot ttv featured:** Returns the first 5 featured live streams
-- **hubot ttv game \<category\>:** Returns the first 5 live streams in a game <category> (case-sensitive)
-- **hubot ttv search \<query\>:** Returns the first 5 live streams matching the search <query>
-- **hubot ttv stream \<name\>:** Returns information about stream <name>
+- **hubot ttv game \<category\>:** Returns the first 5 live streams in a game \<category\> (case-sensitive)
+- **hubot ttv search \<query\>:** Returns the first 5 live streams matching the search \<query\>
+- **hubot ttv stream \<name\>:** Returns information about stream \<name\>
 - **hubot ttv top:** Returns the top 5 games sorted by the number of current viewers on Twitch, most popular first
-- **hubot wiki search \<query\>:** Returns the first 5 Wikipedia articles matching the search <query>
-- **hubot wiki summary \<article\>:** Returns a one-line description about <article>
+- **hubot wiki search \<query\>:** Returns the first 5 Wikipedia articles matching the search \<query\>
+- **hubot wiki summary \<article\>:** Returns a one-line description about \<article\>
 
 
 ### Brain
