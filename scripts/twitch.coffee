@@ -1,5 +1,5 @@
 # Description:
-#   Twitch API - Find live streams
+#   Twitch Public API
 #
 # Dependencies:
 #   None
@@ -8,67 +8,60 @@
 #   None
 #
 # Commands:
-#   hubot ttv <category> - Perform a case-sensitive search on Twitch.tv for live streams in a game category (returns the first 5)
-#   hubot ttv featured - Return the first 5 featured live streams on Twitch.tv
+#   hubot ttv game <category> - Performs a case-sensitive search on Twitch.tv for live streams in a game <category> (returns the first 5)
+#   hubot ttv featured - Returns the first 5 featured live streams on Twitch.tv
 #   hubot ttv stream <name> - Returns information about stream <name>
 #
 # Author:
 #   MrSaints
+#   mbwkarl
+#
+# Todo:
+# - Save favourites?
+#
 
 module.exports = (robot) ->
-    robot.respond /ttv (.*)/i, (msg) ->
-        tempv = msg.match[1].indexOf "stream",0
-        if msg.match[1] is "featured"
-            getStreams msg, true
-        else if tempv is 0
-            getStreams msg, false, true
-        else
-            getStreams msg
-
-
-getStreams = (msg, featured, channel) ->
-    category = msg.match[1]
-
-    API = "/streams"
-    type = "streams"
-
-    if featured
-        API = "/streams/featured"
-        type = "featured"
-
-    if channel
-        streamsplit = msg.match[1].split " "
-        API = "/streams/#{streamsplit[1]}"
-        type = "stream"
-        
-
-    msg.http("https://api.twitch.tv/kraken#{API}")
-        .query
-            game: category
-            limit: 5
-        .get() (err, res, body) ->
-            data = JSON.parse body
-
-            if channel
-                if not data[type]
-                    msg.reply "The stream is either offline, or does not exist."
-                    return
-
-                if data[type]
-                    stream = data[type]
-                    msg.send "#{stream.channel.display_name} is streaming #{stream.channel.game} @ #{stream.channel.url}"
-                    msg.send "Stream status: \"#{stream.channel.status}\""
-                    msg.send "Viewers: #{stream.viewers}"
-                    return
-
-            if data._total is 0
-                msg.reply "No live streams were found in '#{category}'. Try a different category or try again later."
+    robot.respond /ttv game (.*)/i, (msg) ->
+        category = msg.match[1]
+        twitch_request msg, '/streams', { game: category, limit: 5 }, (object) ->
+            if object._total is 0
+                msg.reply "No live streams were found in \"#{category}\". Try a different category or try again later."
                 return
 
-            for stream in data[type][0..4]
-                stream = stream.stream if featured
-                msg.send "#{stream.channel.display_name} (#{stream.channel.status}) - #{stream.channel.url} [Viewers: #{stream.viewers}]"
+            for stream in object.streams
+                channel = stream.channel
+                msg.send "#{channel.display_name} (\"#{channel.status}\") - #{channel.url} [Viewers: #{stream.viewers}]"
 
-            if !featured and data._total > 5
-                msg.reply "There are #{data._total - 5} other '#{category}' live streams."
+            if object._total > 5
+                msg.reply "There are #{object._total - 5} other \"#{category}\" live streams."
 
+    robot.respond /ttv featured/i, (msg) ->
+        twitch_request msg, '/streams/featured', { limit: 5 }, (object) ->
+            for feature in object.featured
+                channel = feature.stream.channel
+                msg.send "#{feature.stream.game}: #{channel.display_name} (#{channel.status}) - #{channel.url} [Viewers: #{feature.stream.viewers}]"
+
+    robot.respond /ttv stream (.*)/i, (msg) ->
+        twitch_request msg, "/streams/#{msg.match[1]}", null, (object) ->
+            if object.status is 404
+                msg.reply "The stream you have entered (\"#{msg.match[1]}\") does not exist."
+                return
+
+            if not object.stream
+                msg.reply "The stream you have entered (\"#{msg.match[1]}\") is currently offline."
+                return
+
+            channel = object.stream.channel
+            msg.send "#{channel.display_name} is streaming #{channel.game} @ #{channel.url}"
+            msg.send "Stream status: \"#{channel.status}\""
+            msg.send "Viewers: #{object.stream.viewers}"
+
+twitch_request = (msg, api, params = {}, handler) ->
+    msg.http("https://api.twitch.tv/kraken#{api}")
+        .query(params)
+        .get() (err, res, body) ->
+            if err
+                msg.reply "An error occurred while attempting to process your request: #{err}"
+                return
+
+            handler JSON.parse(body)
