@@ -8,9 +8,10 @@
 #   None
 #
 # Commands:
-#   hubot ttv game <category> - Performs a case-sensitive search on Twitch.tv for live streams in a game <category> (returns the first 5)
-#   hubot ttv featured - Returns the first 5 featured live streams on Twitch.tv
+#   hubot ttv game <category> - Returns the first 5 live streams in a game <category> (case-sensitive)
+#   hubot ttv featured - Returns the first 5 featured live streams
 #   hubot ttv stream <name> - Returns information about stream <name>
+#   hubot ttv search <query> - Returns a list of live streams matching the search <query>
 #
 # Author:
 #   MrSaints
