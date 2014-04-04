@@ -1,51 +1,46 @@
 # Description:
-#   CDN JS API - Search front-end dependencies
+#   CDN JS Public API
 #
 # Dependencies:
-#   "underscore": "^1.6.0"
+#   None
 #
 # Configuration:
 #   None
 #
 # Commands:
-#   hubot cdnjs <query> - Search the cdnJS script repository for the URL to the latest library available using the query (returns the first 5 matches)
-#   hubot cdnjs strictly <query> - Performs the default search, but with the addition of a strict list search using Underscore.js (returns the first match)
+#   hubot cdnjs search <query> - Returns the CDNJS URL for the first 5 front-end dependencies matching the search <query>
+#   hubot cdnjs fetch <dependency> - Returns the CDNJS URL for a specific front-end <dependency> (e.g. jQuery)
 #
 # Author:
 #   MrSaints
 
-_ = require 'underscore'
-
 module.exports = (robot) ->
-    robot.respond /cdnjs (.*)/i, (msg) ->
-        if msg.match[1].match(/^strictly (.*)$/i)
-            getLibraries msg, true
-        else
-            getLibraries msg
+    robot.respond /cdnjs fetch (.*)/i, (msg) ->
+        cdnjs_request msg, (data) ->
+            for resource in data.results
+                if resource.name is msg.match[1]
+                    msg.reply "#{resource.name} - #{resource.latest}"
+                    return
 
-getLibraries = (msg, strict = false) ->
-    query = msg.match[1]
+            msg.reply "The front-end dependency you have entered (\"#{msg.match[1]}\") does not exist. Try a different dependency."
 
-    if strict
-        query = query.split(' ')[1]
+    robot.respond /cdnjs search (.*)/i, (msg) ->
+        cdnjs_request msg, (data) ->
+            for resource in data.results[0..4]
+                msg.send "#{resource.name} - #{resource.latest}"
 
+            if data.total > 5
+                msg.reply "There are #{data.total - 5} other front-end dependencies matching your search query: \"#{msg.match[1]}\"."
+
+cdnjs_request = (msg, handler) ->
     msg.http("http://api.cdnjs.com/libraries")
         .query
-            search: query
+            search: msg.match[1]
         .get() (err, res, body) ->
             data = JSON.parse body
 
             if data.total is 0
-                msg.reply "Your query ('#{query}') returned no libraries."
+                msg.reply "No front-end dependencies were found using search query: \"#{msg.match[1]}\". Try a different query."
                 return
 
-            if strict
-                match = _.findWhere data.results, name: query
-
-                if match?
-                    msg.reply "#{match.name} - #{match.latest}"
-                else
-                    msg.reply "Your query ('#{query}') returned no results."
-            else
-                for resource in data.results[0..4]
-                    msg.send "#{resource.name} - #{resource.latest}"
+            handler data
