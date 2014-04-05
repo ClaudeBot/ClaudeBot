@@ -16,8 +16,6 @@
 # Author:
 #   MrSaints
 
-version = '0001'
-
 moment = require 'moment'
 
 personaStates = [
@@ -63,10 +61,11 @@ module.exports = (robot) ->
 
     robot.respond /steam status (\d+)/i, (msg) ->
         steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: msg.match[1], (object) ->
-            player = object.response.players.player[0]
+            player = object.response.players[0]
             status = if player.communityvisibilitystate is 1 then 'Unavailable (Private)' else personaStates[player.personastate]
             lastOnline = moment.unix(player.lastlogoff).fromNow()
             msg.reply "#{msg.match[1]} belongs to #{player.personaname} who is currently #{status} and was last online #{lastOnline}."
+        , 2
 
     robot.respond /dota history (\d+)/i, (msg) ->
         steam_request msg, "/IDOTA2Match_570/GetMatchHistory", { account_id: msg.match[1], matches_requested: 5 }, (object) ->
@@ -132,7 +131,7 @@ getTowers = (dec) ->
     for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
         if parseInt(status) then towers[tower] else continue
 
-steam_request = (msg, endpoint, params = {}, handler) ->
+steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
     params.key = process.env.STEAM_API_KEY
 
     msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
@@ -144,4 +143,3 @@ steam_request = (msg, endpoint, params = {}, handler) ->
                 return
 
             handler JSON.parse(body)
-
