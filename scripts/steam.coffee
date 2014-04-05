@@ -103,6 +103,9 @@ module.exports = (robot) ->
                 params.account_id = id
                 history params, 'profile URL'
         else
+            if typeof value isnt 'number'
+                msg.reply "Invalid Steam ID entered. Please ensure you have included the -u flag if you are trying to search by profile URL."
+                return
             history params
 
     robot.respond /dota match (\d+)( \d*)?/i, (msg) ->
