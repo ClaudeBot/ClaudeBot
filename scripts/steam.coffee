@@ -56,13 +56,10 @@ towers = [
 
 module.exports = (robot) ->
     robot.respond /steam id( me)? (.*)/i, (msg) ->
-        steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: msg.match[2], (object) ->
-            if object.response.success is 1
+        getSteamID msg, msg.match[2], (id) ->
+            if id
                 msg.match[2] += if msg.match[2].slice(-1) is "s" then "'" else "'s"
-                msg.reply "#{msg.match[2]} Steam ID is: #{object.response.steamid}"
-                return
-
-            msg.reply "The custom URL you have entered (\"#{msg.match[2]}\") does not exist."
+                msg.reply "#{msg.match[2]} Steam ID is: #{id}"
 
     robot.respond /steam status (\d+)/i, (msg) ->
         steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: msg.match[1], (object) ->
@@ -94,7 +91,6 @@ module.exports = (robot) ->
                 msg.send "Match ID: #{match.match_id} | Lobby: #{lobbies[match.lobby_type]} | Hero: #{hero} | #{start}"
 
     robot.respond /dota match (\d+)( \d*)?/i, (msg) ->
-        communityID = if msg.match[2]? then getCommunityID(msg.match[2]) else false
         steam_request msg, "/IDOTA2Match_570/GetMatchDetails", match_id: msg.match[1], (object) ->
             match = object.result
             start = moment.unix(match.start_time).fromNow()
@@ -108,12 +104,22 @@ module.exports = (robot) ->
             msg.send "Match ID #{match.match_id} is a #{lobbies[match.lobby_type].toLowerCase()} game that took place #{start}. The #{victor} won the game in #{duration} minutes. First blood was drawn #{firstBlood} into the game."
             msg.send "Radiant towers remaining: #{radiantTowers} | Dire towers remaining: #{direTowers}"
 
+            communityID = if msg.match[2]? then getCommunityID(msg.match[2]) else false
+
             if communityID
                 for player in match.players
                     if player.account_id is communityID
                         msg.reply "#{getHero(player.hero_id).localized_name} (Lvl #{player.level}) | KDA: #{player.kills}/#{player.deaths}/#{player.assists} | LH: #{player.last_hits} | GPM: #{player.gold_per_min} | XPM: #{player.xp_per_min}"
                         return
                 msg.reply "The Steam ID you have entered (\"#{msg.match[1]}\") was not found in Match ID #{match.match_id}."
+
+getSteamID = (msg, customURL, handler) ->
+    steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
+        if object.response.success is 42
+            msg.reply "The custom URL you have entered (\"#{msg.match[2]}\") does not exist."
+            return
+
+        handler object.response.steamid
 
 getCommunityID = (steamID) ->
     # 64 -> 32
