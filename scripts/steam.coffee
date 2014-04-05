@@ -9,6 +9,7 @@
 #
 # Commands:
 #   hubot steam id [me] <custom URL> - Returns the Steam ID for the user under http://steamcommunity.com/id/<custom URL>
+#   hubot steam status <Steam ID> - Returns <Steam ID> community status
 #   hubot dota history <Steam ID> - Returns metadata for the latest 5 game lobbies with <Steam ID>
 #   hubot dota match <match ID> [<Steam ID>] - Returns information about a particular <match ID>. Optionally, if <Steam ID> is included, its match information will also be returned
 #
@@ -18,6 +19,16 @@
 version = '0001'
 
 moment = require 'moment'
+
+personaStates = [
+    "Offline"
+    "Online"
+    "Busy"
+    "Away"
+    "Snooze"
+    "Looking to trade"
+    "Looking to play"
+]
 
 heroes = require '../data/heroes'
 lobbies =
@@ -52,6 +63,13 @@ module.exports = (robot) ->
                 return
 
             msg.reply "The custom URL you have entered (\"#{msg.match[2]}\") does not exist."
+
+    robot.respond /steam status (\d+)/i, (msg) ->
+        steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: msg.match[1], (object) ->
+            player = object.response.players.player[0]
+            status = if player.communityvisibilitystate is 1 then 'Unavailable (Private)' else personaStates[player.personastate]
+            lastOnline = moment.unix(player.lastlogoff).fromNow()
+            msg.reply "#{msg.match[1]} belongs to #{player.personaname} who is currently #{status} and was last online #{lastOnline}."
 
     robot.respond /dota history (\d+)/i, (msg) ->
         steam_request msg, "/IDOTA2Match_570/GetMatchHistory", { account_id: msg.match[1], matches_requested: 5 }, (object) ->
