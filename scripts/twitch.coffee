@@ -16,7 +16,7 @@
 #
 # Author:
 #   MrSaints
-#   mbwkarl
+#   mbwk
 #
 # Todo:
 # - Save favourites?
