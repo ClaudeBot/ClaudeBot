@@ -10,7 +10,7 @@
 # Commands:
 #   hubot steam id [me] <custom URL> - Returns the Steam ID for the user under http://steamcommunity.com/id/<custom URL>
 #   hubot steam status <Steam ID> - Returns <Steam ID> community status
-#   hubot dota history <Steam ID> - Returns metadata for the latest 5 game lobbies with <Steam ID>
+#   hubot dota history [-u] <Steam ID|custom URL> - Returns metadata for the latest 5 game lobbies with <Steam ID> or <custom URL> if the -u flag is set
 #   hubot dota match <match ID> [<Steam ID>] - Returns information about a particular <match ID>. Optionally, if <Steam ID> is included, its match information will also be returned
 #
 # Author:
@@ -38,6 +38,7 @@ lobbies =
     4: "Co-op with bots"
     5: "Team match"
     6: "Solo queue"
+    7: "N/A"
 towers = [
     "Ancient top"
     "Ancient bottom"
@@ -67,27 +68,42 @@ module.exports = (robot) ->
             msg.reply "#{msg.match[1]} belongs to #{player.personaname} who is currently #{status} and was last online #{lastOnline}."
         , 2
 
-    robot.respond /dota history (\d+)/i, (msg) ->
-        steam_request msg, "/IDOTA2Match_570/GetMatchHistory", { account_id: msg.match[1], matches_requested: 5 }, (object) ->
-            if object.result.status is 15
-                msg.reply "The Steam ID you have entered (\"#{msg.match[1]}\") does not exist or it does not have match history enabled."
-                return
-            else if object.result.num_results is 0
-                msg.reply "No game matches were found for the Steam ID: #{msg.match[1]}."
-                return
+    robot.respond /dota history (-u )?(.*)/i, (msg) ->
+        [command, flag, value] = msg.match
 
-            communityID = getCommunityID(msg.match[1])
+        params =
+            account_id: value
+            matches_requested: 5
 
-            for match in object.result.matches
-                hero = "N/A"
-                start = moment.unix(match.start_time).fromNow()
+        history = (params, type = 'Steam ID') ->
+            steam_request msg, "/IDOTA2Match_570/GetMatchHistory", params, (object) ->
+                if object.result.status is 15
+                    msg.reply "The #{type} you have entered (\"#{msg.match[1]}\") does not exist or it does not have match history enabled."
+                    return
+                else if object.result.num_results is 0
+                    msg.reply "No game matches were found for the #{type}: #{msg.match[1]}."
+                    return
 
-                for player in match.players
-                    if player.account_id is communityID
-                        hero = getHero(player.hero_id).localized_name
-                        break;
+                communityID = getCommunityID params.account_id
 
-                msg.send "Match ID: #{match.match_id} | Lobby: #{lobbies[match.lobby_type]} | Hero: #{hero} | #{start}"
+                for match in object.result.matches
+                    hero = "N/A"
+                    start = moment.unix(match.start_time).fromNow()
+
+                    for player in match.players
+                        if player.account_id is communityID
+                            hero = getHero(player.hero_id).localized_name
+                            break;
+
+                    msg.send "Match ID: #{match.match_id} | Lobby: #{lobbies[match.lobby_type]} | Hero: #{hero} | #{start}"
+
+        if flag is '-u '
+            getSteamID msg, value, (id) ->
+                return false if not id
+                params.account_id = id
+                history params, 'profile URL'
+        else
+            history params
 
     robot.respond /dota match (\d+)( \d*)?/i, (msg) ->
         steam_request msg, "/IDOTA2Match_570/GetMatchDetails", match_id: msg.match[1], (object) ->
