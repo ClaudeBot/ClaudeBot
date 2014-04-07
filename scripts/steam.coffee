@@ -17,6 +17,7 @@
 #   MrSaints
 
 moment = require 'moment'
+require 'ref'
 
 personaStates = [
     "Offline"
@@ -38,7 +39,7 @@ lobbies =
     4: "Co-op with bots"
     5: "Team match"
     6: "Solo queue"
-    7: "N/A"
+    7: "Ranked match"
 towers = [
     "Ancient top"
     "Ancient bottom"
@@ -56,9 +57,8 @@ towers = [
 module.exports = (robot) ->
     robot.respond /steam id( me)? (.*)/i, (msg) ->
         getSteamID msg, msg.match[2], (id) ->
-            if id
-                msg.match[2] += if msg.match[2].slice(-1) is "s" then "'" else "'s"
-                msg.reply "#{msg.match[2]} Steam ID is: #{id}"
+            msg.match[2] += if msg.match[2].slice(-1) is "s" then "'" else "'s"
+            msg.reply "#{msg.match[2]} Steam ID is: #{id}"
 
     robot.respond /steam status (\d+)/i, (msg) ->
         steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: msg.match[1], (object) ->
@@ -68,20 +68,21 @@ module.exports = (robot) ->
             msg.reply "#{msg.match[1]} belongs to #{player.personaname} who is currently #{status} and was last online #{lastOnline}."
         , 2
 
-    robot.respond /dota history (-u )?(.*)/i, (msg) ->
-        [command, flag, value] = msg.match
+    robot.respond /dota history (.*)/i, (msg) ->
+        [command, value] = msg.match
 
         params =
+            original: value
             account_id: value
             matches_requested: 5
 
         history = (params, type = 'Steam ID') ->
             steam_request msg, "/IDOTA2Match_570/GetMatchHistory", params, (object) ->
                 if object.result.status is 15
-                    msg.reply "The #{type} you have entered (\"#{msg.match[1]}\") does not exist or it does not have match history enabled."
+                    msg.reply "The #{type} you have entered (\"#{params.original}\") does not exist or it does not have match history enabled."
                     return
                 else if object.result.num_results is 0
-                    msg.reply "No game matches were found for the #{type}: #{msg.match[1]}."
+                    msg.reply "No game matches were found for the #{type}: #{params.original}."
                     return
 
                 communityID = getCommunityID params.account_id
@@ -97,16 +98,12 @@ module.exports = (robot) ->
 
                     msg.send "Match ID: #{match.match_id} | Lobby: #{lobbies[match.lobby_type]} | Hero: #{hero} | #{start}"
 
-        if flag is '-u '
+        if value.match /\d{17}/
+            history params
+        else
             getSteamID msg, value, (id) ->
-                return false if not id
                 params.account_id = id
                 history params, 'profile URL'
-        else
-            if typeof value isnt 'number'
-                msg.reply "Invalid Steam ID entered. Please ensure you have included the -u flag if you are trying to search by profile URL."
-                return
-            history params
 
     robot.respond /dota match (\d+)( \d*)?/i, (msg) ->
         steam_request msg, "/IDOTA2Match_570/GetMatchDetails", match_id: msg.match[1], (object) ->
@@ -134,14 +131,16 @@ module.exports = (robot) ->
 getSteamID = (msg, customURL, handler) ->
     steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
         if object.response.success is 42
-            msg.reply "The custom URL you have entered (\"#{msg.match[2]}\") does not exist."
+            msg.reply "The custom URL you have entered (\"#{customURL}\") does not exist."
             return
 
         handler object.response.steamid
 
 getCommunityID = (steamID) ->
     # 64 -> 32
-    (steamID - 76561197960265728)
+    buffer = new Buffer 8
+    buffer.writeUInt64LE steamID, 0
+    buffer.readUInt32LE 0
 
 getHero = (heroID) ->
     return hero for hero in heroes when hero.id is heroID
