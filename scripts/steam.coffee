@@ -3,6 +3,7 @@
 #
 # Dependencies:
 #   "moment": "^2.5.1"
+#   "ref": "^0.1.3"
 #
 # Configuration:
 #   STEAM_API_KEY
