@@ -40,6 +40,14 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 - **hubot ttv top:** Returns the top 5 games sorted by the number of current viewers on Twitch, most popular first
 - **hubot wiki search \<query\>:** Returns the first 5 Wikipedia articles matching the search \<query\>
 - **hubot wiki summary \<article\>:** Returns a one-line description about \<article\>
+- **hubot face [me]:** Returns a random, but cool ASCII face
+- **hubot guess \<number\>:** Returns a feedback indicating how accurate your 4-digit \<number\> guess is
+- **hubot guess surrender:** Restarts the game with a new number, duh!
+- **hubot guess tutorial:** Tells you how to play this game
+- **hubot steam id [me] \<custom URL\>:** Returns the Steam ID for the user under http://steamcommunity.com/id/\<custom URL\>
+- **hubot steam status \<Steam ID|custom URL\>:** Returns \<Steam ID\> or \<custom URL\> community status
+- **hubot dota history \<Steam ID|custom URL\>:** Returns metadata for the latest 5 game lobbies with \<Steam ID\> or \<custom URL\>
+- **hubot dota match \<match ID\> [\<Steam ID|custom URL\>]:** Returns information about a particular \<match ID\>. Optionally, if \<Steam ID\> or \<custom URL\> is included, its match information will also be returned
 
 
 ### Brain
