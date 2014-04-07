@@ -61,13 +61,20 @@ module.exports = (robot) ->
             msg.match[2] += if msg.match[2].slice(-1) is "s" then "'" else "'s"
             msg.reply "#{msg.match[2]} Steam ID is: #{id}"
 
-    robot.respond /steam status (\d+)/i, (msg) ->
-        steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: msg.match[1], (object) ->
-            player = object.response.players[0]
-            status = if player.communityvisibilitystate is 1 then 'Unavailable (Private)' else personaStates[player.personastate]
-            lastOnline = moment.unix(player.lastlogoff).fromNow()
-            msg.reply "#{msg.match[1]} belongs to #{player.personaname} who is currently #{status} and was last online #{lastOnline}."
-        , 2
+    robot.respond /steam status (.*)/i, (msg) ->
+        summary = (steamID) ->
+            steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: steamID, (object) ->
+                player = object.response.players[0]
+                status = if player.communityvisibilitystate is 1 then 'Unavailable (Private)' else personaStates[player.personastate]
+                lastOnline = moment.unix(player.lastlogoff).fromNow()
+                msg.reply "#{msg.match[1]} belongs to #{player.personaname} who is currently #{status} and was last online #{lastOnline}."
+            , 2
+
+        if msg.match[1].match /\d{17}/
+            summary msg.match[1]
+        else
+            getSteamID msg, msg.match[1], (steamID) ->
+                summary steamID
 
     robot.respond /dota history (.*)/i, (msg) ->
         [command, value] = msg.match
@@ -133,8 +140,8 @@ module.exports = (robot) ->
                 if msg.match[2].match /\d{17}/
                     playerInfo getCommunityID(msg.match[2])
                 else
-                    getSteamID msg, msg.match[2], (id) ->
-                        playerInfo getCommunityID(id)
+                    getSteamID msg, msg.match[2], (steamID) ->
+                        playerInfo getCommunityID(steamID)
 
 getSteamID = (msg, customURL, handler) ->
     steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
