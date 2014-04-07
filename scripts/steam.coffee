@@ -106,7 +106,7 @@ module.exports = (robot) ->
                 params.account_id = id
                 history params, 'profile URL'
 
-    robot.respond /dota match (\d+)( \d*)?/i, (msg) ->
+    robot.respond /dota match (\d+)\s*(.*)?/i, (msg) ->
         steam_request msg, "/IDOTA2Match_570/GetMatchDetails", match_id: msg.match[1], (object) ->
             match = object.result
             start = moment.unix(match.start_time).fromNow()
@@ -122,12 +122,19 @@ module.exports = (robot) ->
 
             communityID = if msg.match[2]? then getCommunityID(msg.match[2]) else false
 
-            if communityID
+            playerInfo = (communityID) ->
                 for player in match.players
                     if player.account_id is communityID
                         msg.reply "#{getHero(player.hero_id).localized_name} (Lvl #{player.level}) | KDA: #{player.kills}/#{player.deaths}/#{player.assists} | LH: #{player.last_hits} | GPM: #{player.gold_per_min} | XPM: #{player.xp_per_min}"
                         return
                 msg.reply "The Steam ID you have entered (\"#{msg.match[1]}\") was not found in Match ID #{match.match_id}."
+
+            if msg.match[2]?
+                if msg.match[2].match /\d{17}/
+                    playerInfo getCommunityID(msg.match[2])
+                else
+                    getSteamID msg, msg.match[2], (id) ->
+                        playerInfo getCommunityID(id)
 
 getSteamID = (msg, customURL, handler) ->
     steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
