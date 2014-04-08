@@ -137,7 +137,8 @@ module.exports = (robot) ->
             playerInfo = (communityID) ->
                 for player in match.players
                     if player.account_id is communityID
-                        msg.reply "#{getHero(player.hero_id).localized_name} (Lvl #{player.level}) | KDA: #{player.kills}/#{player.deaths}/#{player.assists} | LH: #{player.last_hits} | GPM: #{player.gold_per_min} | XPM: #{player.xp_per_min}"
+                        faction = if player.player_slot > 4 then 'Dire' else 'Radiant'
+                        msg.reply "#{getHero(player.hero_id).localized_name} (Lvl #{player.level}), #{faction} | KDA: #{player.kills}/#{player.deaths}/#{player.assists} | LH: #{player.last_hits} | GPM: #{player.gold_per_min} | XPM: #{player.xp_per_min}"
                         return
                 msg.reply "The Steam ID you have entered (\"#{msg.match[1]}\") was not found in Match ID #{match.match_id}."
 
