@@ -20,6 +20,8 @@
 moment = require 'moment'
 require 'ref'
 
+STEAM_API_KEY = process.env.STEAM_API_KEY
+
 personaStates = [
     "Offline"
     "Online"
@@ -56,6 +58,9 @@ towers = [
 ]
 
 module.exports = (robot) ->
+    if not STEAM_API_KEY?
+        return robot.logger.debug 'Missing STEAM_API_KEY in environment. Please set and try again.'
+
     robot.respond /steam id( me)? (.*)/i, (msg) ->
         getSteamID msg, msg.match[2], (id) ->
             msg.match[2] += if msg.match[2].slice(-1) is "s" then "'" else "'s"
@@ -165,14 +170,14 @@ getTowers = (dec) ->
         if parseInt(status) then towers[tower] else continue
 
 steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
-    params.key = process.env.STEAM_API_KEY
+    params.key = STEAM_API_KEY
 
     msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
         .query(params)
         .get() (err, res, body) ->
             if err or res.statusCode isnt 200
                 err = "Bad request (invalid Steam web API key)" if res.statusCode is 400
-                msg.reply "An error occurred while attempting to process your request: #{err}"
-                return
+                msg.reply "An error occurred while attempting to process your request."
+                return robot.logger.error err
 
             handler JSON.parse(body)

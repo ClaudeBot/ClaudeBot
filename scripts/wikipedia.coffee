@@ -59,6 +59,6 @@ wiki_request = (msg, params = {}, handler) ->
         .get() (err, res, body) ->
             if err
                 msg.reply "An error occurred while attempting to process your request: #{err}"
-                return
+                return robot.logger.error err
 
             handler JSON.parse(body)

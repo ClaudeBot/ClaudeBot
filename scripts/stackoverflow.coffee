@@ -49,8 +49,8 @@ getQuestions = (msg, site = false) ->
                     parsedData = JSON.parse json
 
                     if parsedData.error
-                        msg.send "An error occurred: #{parsedData.error.message}"
-                        return
+                        msg.reply "An error occurred while attempting to process your request."
+                        return robot.logger.error err
 
                     if parsedData.items.length is 0
                         msg.reply "Your query ('#{seQuery}') returned no results on #{seSite}."

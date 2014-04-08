@@ -40,7 +40,7 @@ decodeChildren = (object) ->
 
 module.exports = (robot) ->
     if not DWEET_THING?
-        return
+        return robot.logger.debug 'Missing DWEET_THING in environment. Please set and try again.'
 
     status = 
         connected: false
@@ -54,7 +54,7 @@ module.exports = (robot) ->
         dweet_request robot, '/get/latest/dweet', null, (dweet) ->
             if dweet.with is 404
                 robot.brain.mergeData {}
-                robot.logger.info 'Initializing new data for brain'
+                robot.logger.info 'Initializing new data for brain.'
                 robot.brain.save()
             else if dweet.this is 'failed'
                 return robot.logger.error dweet.because
@@ -66,7 +66,7 @@ module.exports = (robot) ->
             if dweet.with isnt 404
                 content = decodeChildren dweet.with[0].content
                 robot.brain.mergeData content
-                robot.logger.info 'Data for brain retrieved from Dweet.io'
+                robot.logger.info 'Data for brain retrieved from Dweet.io.'
     getData()
 
     robot.brain.on 'save', (data = {}) ->
@@ -74,7 +74,7 @@ module.exports = (robot) ->
             return robot.logger.error dweet.because if dweet.this is 'failed'
 
             status.lastSaved = dweet.with.created
-            robot.logger.info "Successfully Dweeted to #{DWEET_THING}"
+            robot.logger.info "Successfully Dweeted to #{DWEET_THING}."
 
     robot.respond /brain save/i, (msg) ->
         msg.reply "Saving..."

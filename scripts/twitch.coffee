@@ -86,7 +86,7 @@ twitch_request = (msg, api, params = {}, handler) ->
         .query(params)
         .get() (err, res, body) ->
             if err
-                msg.reply "An error occurred while attempting to process your request: #{err}"
-                return
+                msg.reply "An error occurred while attempting to process your request."
+                return robot.logger.error err
 
             handler JSON.parse(body)

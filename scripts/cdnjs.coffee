@@ -38,8 +38,8 @@ cdnjs_request = (msg, handler) ->
             search: msg.match[1]
         .get() (err, res, body) ->
             if err
-                msg.reply "An error occurred while attempting to process your request: #{err}"
-                return
+                msg.reply "An error occurred while attempting to process your request."
+                return robot.logger.error err
 
             data = JSON.parse body
 
