@@ -61,6 +61,9 @@ module.exports = (robot) ->
     if not STEAM_API_KEY?
         return robot.logger.debug 'Missing STEAM_API_KEY in environment. Please set and try again.'
 
+    steamData = () ->
+        robot.brain.data.steam ?= {}
+
     robot.respond /steam id( me)? (.*)/i, (msg) ->
         getSteamID msg, msg.match[2], (id) ->
             msg.match[2] += if msg.match[2].slice(-1) is "s" then "'" else "'s"
@@ -149,36 +152,54 @@ module.exports = (robot) ->
                     getSteamID msg, msg.match[2], (steamID) ->
                         playerInfo getCommunityID(steamID)
 
-getSteamID = (msg, customURL, handler) ->
-    steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
-        if object.response.success is 42
-            msg.reply "The custom URL you have entered (\"#{customURL}\") does not exist."
-            return
+    getSteamID = (msg, customURL, handler) ->
+        for steamID, user of steamData()
+            return handler steamID if user.url is customURL
 
-        handler object.response.steamid
+        steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
+            if object.response.success is 42
+                msg.reply "The custom URL you have entered (\"#{customURL}\") does not exist."
+                return
 
-getCommunityID = (steamID) ->
-    # 64 -> 32
-    buffer = new Buffer 8
-    buffer.writeUInt64LE steamID, 0
-    buffer.readUInt32LE 0
+            if steamData()[object.response.steamid]?
+                steamData()[object.response.steamid].url = customURL
+            else
+                steamData()[object.response.steamid] = url: customURL
 
-getHero = (heroID) ->
-    return hero for hero in heroes when hero.id is heroID
+            handler object.response.steamid
 
-getTowers = (dec) ->
-    for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
-        if parseInt(status) then towers[tower] else continue
+    getCommunityID = (steamID) ->
+        if steamData()[steamID]?.communityID?
+            return steamData()[steamID].communityID
 
-steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
-    params.key = STEAM_API_KEY
+        # 64 -> 32
+        buffer = new Buffer 8
+        buffer.writeUInt64LE steamID, 0
+        communityID = buffer.readUInt32LE 0
 
-    msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
-        .query(params)
-        .get() (err, res, body) ->
-            if err or res.statusCode isnt 200
-                err = "Bad request (invalid Steam web API key)" if res.statusCode is 400
-                msg.reply "An error occurred while attempting to process your request."
-                return robot.logger.error err
+        if steamData()[steamID]?
+            steamData()[steamID].communityID = communityID
+        else
+            steamData()[object.response.steamid] = communityID: communityID
 
-            handler JSON.parse(body)
+        communityID
+
+    getHero = (heroID) ->
+        return hero for hero in heroes when hero.id is heroID
+
+    getTowers = (dec) ->
+        for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
+            if parseInt(status) then towers[tower] else continue
+
+    steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
+        params.key = STEAM_API_KEY
+
+        msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
+            .query(params)
+            .get() (err, res, body) ->
+                if err or res.statusCode isnt 200
+                    err = "Bad request (invalid Steam web API key)" if res.statusCode is 400
+                    msg.reply "An error occurred while attempting to process your request."
+                    return robot.logger.error err
+
+                handler JSON.parse(body)

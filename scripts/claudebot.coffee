@@ -15,7 +15,7 @@
 #   MrSaints
 #
 # Notes:
-#	* TODO: Brain save wrapper?
+#	* TODO: Brain save wrapper? / Dirty-checking -> Save
 
 moment = require 'moment'
 
