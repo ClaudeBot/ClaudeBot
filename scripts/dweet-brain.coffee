@@ -11,6 +11,7 @@
 # Configuration:
 #   DWEET_THING
 #   DWEET_KEY
+#   DWEET_AUTOSAVE
 #
 # Author:
 #   MrSaints
@@ -19,6 +20,7 @@ moment = require 'moment'
 
 DWEET_THING = process.env.DWEET_THING
 DWEET_KEY = process.env.DWEET_KEY
+DWEET_AUTOSAVE = process.env.DWEET_AUTOSAVE or 1800
 
 toBase64 = (json) ->
     new Buffer(JSON.stringify(json)).toString 'base64'
@@ -47,8 +49,7 @@ module.exports = (robot) ->
         lastSaved: false
 
     robot.brain.setAutoSave false
-    robot.brain.resetSaveInterval(600)
-    #robot.brain.resetSaveInterval(10)
+    robot.brain.resetSaveInterval DWEET_AUTOSAVE
 
     getData = ->
         dweet_request robot, '/get/latest/dweet', null, (dweet) ->
@@ -58,10 +59,11 @@ module.exports = (robot) ->
                 robot.brain.save()
             else if dweet.this is 'failed'
                 return robot.logger.error dweet.because
+            else
+                status.lastSaved = dweet.with[0].created
 
             robot.brain.setAutoSave true
             status.connected = true
-            status.lastSaved = dweet.with[0].created
 
             if dweet.with isnt 404
                 content = decodeChildren dweet.with[0].content
