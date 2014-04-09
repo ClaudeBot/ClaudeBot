@@ -9,7 +9,7 @@ It is also [WalaoBot's](https://github.com/MrSaints/WalaoBot) highly evolved, Fr
 This version is designed to protect and serve the great people of [FyreChat IRC #sandbox](http://fyrechat.net/) (using [Hubot IRC adapter](https://github.com/nandub/hubot-irc)); and to be deployed on [Heroku](http://www.heroku.com).
 
 The original, generated Hubot `README` can be found [here](https://github.com/github/hubot/blob/master/src/templates/README.md). 
-Additional documentation can be found [Hubot's GitHub](https://github.com/github/hubot/tree/master/docs).
+Additional documentation can be found on [Hubot's GitHub](https://github.com/github/hubot/tree/master/docs).
 
 
 ## Features
@@ -44,7 +44,7 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 - **hubot guess \<number\>:** Returns a feedback indicating how accurate your 4-digit \<number\> guess is
 - **hubot guess surrender:** Restarts the game with a new number, duh!
 - **hubot guess tutorial:** Tells you how to play this game
-- **hubot steam id [me] \<custom URL\>:** Returns the Steam ID for the user under http://steamcommunity.com/id/\<custom URL\>
+- **hubot steam id [me] \<custom URL\>:** Returns the Steam ID for the user under `http://steamcommunity.com/id/\<custom URL\>`
 - **hubot steam status \<Steam ID|custom URL\>:** Returns \<Steam ID\> or \<custom URL\> community status
 - **hubot dota history \<Steam ID|custom URL\>:** Returns metadata for the latest 5 game lobbies with \<Steam ID\> or \<custom URL\>
 - **hubot dota match \<match ID\> [\<Steam ID|custom URL\>]:** Returns information about a particular \<match ID\>. Optionally, if \<Steam ID\> or \<custom URL\> is included, its match information will also be returned
