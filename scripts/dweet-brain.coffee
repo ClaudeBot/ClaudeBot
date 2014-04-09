@@ -60,15 +60,13 @@ module.exports = (robot) ->
             else if dweet.this is 'failed'
                 return robot.logger.error dweet.because
             else
+                content = decodeChildren dweet.with[0].content
+                robot.brain.mergeData content
+                robot.logger.info 'Data for brain retrieved from Dweet.io.'
                 status.lastSaved = dweet.with[0].created
 
             robot.brain.setAutoSave true
             status.connected = true
-
-            if dweet.with isnt 404
-                content = decodeChildren dweet.with[0].content
-                robot.brain.mergeData content
-                robot.logger.info 'Data for brain retrieved from Dweet.io.'
     getData()
 
     robot.brain.on 'save', (data = {}) ->
