@@ -135,8 +135,6 @@ module.exports = (robot) ->
             msg.send "Match ID #{match.match_id} is a #{lobbies[match.lobby_type].toLowerCase()} game that took place #{start}. The #{victor} won the game in #{duration} minutes. First blood was drawn #{firstBlood} into the game."
             msg.send "Radiant towers remaining: #{radiantTowers} | Dire towers remaining: #{direTowers}"
 
-            communityID = if msg.match[2]? then getCommunityID(msg.match[2]) else false
-
             playerInfo = (communityID) ->
                 for player in match.players
                     if player.account_id is communityID
@@ -180,7 +178,7 @@ module.exports = (robot) ->
         if steamData()[steamID]?
             steamData()[steamID].communityID = communityID
         else
-            steamData()[object.response.steamid] = communityID: communityID
+            steamData()[steamID] = communityID: communityID
 
         communityID
 
