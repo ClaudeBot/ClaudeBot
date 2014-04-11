@@ -44,17 +44,21 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 - **hubot guess \<number\>:** Returns a feedback indicating how accurate your 4-digit \<number\> guess is
 - **hubot guess surrender:** Restarts the game with a new number, duh!
 - **hubot guess tutorial:** Tells you how to play this game
-- **hubot steam id [me] \<custom URL\>:** Returns the Steam ID for the user under `http://steamcommunity.com/id/\<custom URL\>`
+- **hubot steam id [me] \<custom URL\>:** Returns the Steam ID for the user under `http://steamcommunity.com/id/<custom URL>`
 - **hubot steam status \<Steam ID|custom URL\>:** Returns \<Steam ID\> or \<custom URL\> community status
 - **hubot dota history \<Steam ID|custom URL\>:** Returns metadata for the latest 5 game lobbies with \<Steam ID\> or \<custom URL\>
 - **hubot dota match \<match ID\> [\<Steam ID|custom URL\>]:** Returns information about a particular \<match ID\>. Optionally, if \<Steam ID\> or \<custom URL\> is included, its match information will also be returned
 
+*Steam Web API which powers all the Steam and Dota 2 commands requires an API key which you may set via `STEAM_API_KEY`.*
+
 
 ### Brain
 
-It does not have a brain yet and thus there is no persistence. 
-`redis-brain.coffee` was removed earlier on from `hubot-scripts.json` ... 
-It has no memory of you.
+ClaudeBot (like its counterpart, Hubot) has a short-term and a long-term memory store. Memories in its short-term store will not be persisted should it oh I don't know... die and come back alive? Its local brain will start with a blank slate. Thus, it has an external brain which serves as a more permanent storage medium for long-term memories.
+
+Hubot's default, external brain `redis-brain.coffee` was surgically removed from `hubot-scripts.json` in favour of a custom engineered, cloud, key-value based brain solution powered by [Dweet.io](https://dweet.io/). 
+
+ClaudeBot uses `dweet-brain.coffee` for data storage / persistence. It is however, disabled unless the `DWEET_THING` environment variable is set. What is `DWEET_THING` you may ask? Well [find out](https://dweet.io/) for yourself. It is also set to automatically transfer data from its short-term memory to its long-term memory every 30 minutes. You can tweak it by setting the delay (in seconds) via `DWEET_AUTOSAVE`. You can protect your data by purchasing a [Dweet.io lock](https://dweet.io/locks) and setting its key via `DWEET_KEY`.
 
 
 ## Usage
