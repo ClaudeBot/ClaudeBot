@@ -28,10 +28,12 @@ toBase64 = (json) ->
 fromBase64 = (base64) ->
     JSON.parse new Buffer(base64, 'base64').toString 'ascii'
 
-encodeChildren = (object) ->
+encodeChildren = (object, ignoreUsers = false) ->
     encodedObject = {}
     for key, value of object
+        continue if ignoreUsers and key is 'users'
         encodedObject[key] = toBase64 value
+
     encodedObject
 
 decodeChildren = (object) ->
@@ -70,7 +72,8 @@ module.exports = (robot) ->
     getData()
 
     robot.brain.on 'save', (data = {}) ->
-        dweet_request robot, '/dweet', encodeChildren(data), (dweet) ->
+        isIRC = robot.adapterName is 'irc'
+        dweet_request robot, '/dweet', encodeChildren(data, isIRC), (dweet) ->
             return robot.logger.error dweet.because if dweet.this is 'failed'
 
             status.lastSaved = dweet.with.created
