@@ -1,4 +1,5 @@
 # ClaudeBot
+[![Dependency Status](https://david-dm.org/MrSaints/ClaudeBot.svg)](https://david-dm.org/MrSaints/ClaudeBot)
 
 Totally not trying to poke fun at the word cloud. *\*cough CloudIRC\**
 This is a clone of GitHub's Campfire bot, [Hubot](https://hubot.github.com/). He's pretty chill. 
@@ -29,6 +30,8 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 
 ### Master Ian's Commands
 
+A full list of command may be found by visiting the bot via HTTP `/RobotName/help` or by calling the `help` command.
+
 - **hubot cdnjs search \<query\>:** Returns the CDNJS URL for the first 5 front-end dependencies matching the search \<query\>
 - **hubot cdnjs fetch \<dependency\>:** Returns the CDNJS URL for a specific front-end \<dependency\> (e.g. jQuery)
 - **hubot so \<query\>:** Returns the first 5 questions on Stack Overflow matching the search \<query\> (stack command shortcut)
@@ -48,6 +51,8 @@ Browse the [hubot-scripts catalog](http://hubot-script-catalog.herokuapp.com/) f
 - **hubot steam status \<Steam ID|custom URL\>:** Returns \<Steam ID\> or \<custom URL\> community status
 - **hubot dota history \<Steam ID|custom URL\>:** Returns metadata for the latest 5 game lobbies with \<Steam ID\> or \<custom URL\>
 - **hubot dota match \<match ID\> [\<Steam ID|custom URL\>]:** Returns information about a particular \<match ID\>. Optionally, if \<Steam ID\> or \<custom URL\> is included, its match information will also be returned
+- **hubot brain save:** Forces a save to Dweet.io
+- **hubot brain status:** Returns the brain status
 
 *Steam Web API which powers all the Steam and Dota 2 commands requires an API key which you may set via `STEAM_API_KEY`.*
 
