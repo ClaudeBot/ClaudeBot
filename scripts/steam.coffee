@@ -182,22 +182,22 @@ module.exports = (robot) ->
 
         communityID
 
-    getHero = (heroID) ->
-        return hero for hero in heroes when hero.id is heroID
+getHero = (heroID) ->
+    return hero for hero in heroes when hero.id is heroID
 
-    getTowers = (dec) ->
-        for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
-            if parseInt(status) then towers[tower] else continue
+getTowers = (dec) ->
+    for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
+        if parseInt(status) then towers[tower] else continue
 
-    steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
-        params.key = STEAM_API_KEY
+steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
+    params.key = STEAM_API_KEY
 
-        msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
-            .query(params)
-            .get() (err, res, body) ->
-                if err or res.statusCode isnt 200
-                    err = "Bad request (invalid Steam web API key)" if res.statusCode is 400
-                    msg.reply "An error occurred while attempting to process your request."
-                    return robot.logger.error err
+    msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
+        .query(params)
+        .get() (err, res, body) ->
+            if err or res.statusCode isnt 200
+                err = "Bad request (invalid Steam web API key)" if res.statusCode is 400
+                msg.reply "An error occurred while attempting to process your request."
+                return robot.logger.error err
 
-                handler JSON.parse(body)
+            handler JSON.parse(body)
