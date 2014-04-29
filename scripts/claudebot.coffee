@@ -6,7 +6,7 @@
 #   "moment": "^2.5.1"
 #
 # Configuration:
-#   None
+#   HUBOT_AUTH_ADMIN - A comma separate list of user IDs
 #
 # Commands:
 #   None
@@ -37,11 +37,15 @@ module.exports = (robot) ->
 		res.send "I am <a href=\"https://github.com/MrSaints/ClaudeBot\">Claude</a>, the bot and I have been sentient since #{start.fromNow()}."
 
 	# Restrict commands
-	robot.respond /(.*)/i, (msg) ->
-		return if not msg.match[1]
+	if process.env.HUBOT_AUTH_ADMIN?
+		admins = process.env.HUBOT_AUTH_ADMIN.split ','
 
-		matches = adminOnly.filter (command) ->
-			command.match new RegExp(msg.match[1], 'i')
-		if matches.length > 0 and not robot.auth.hasRole msg.envelope.user, 'admin'
-			msg.message.done = true
-			msg.reply "Sorry, the command you have entered has been restricted to admins only."
+		robot.respond /(.*)/i, (msg) ->
+			return unless msg.match[1]?
+
+			matches = adminOnly.filter (command) ->
+				command.match new RegExp(msg.match[1], 'i')
+
+			if matches.length > 0 and msg.message.user.id.toString() not in admins
+				msg.message.done = true
+				msg.reply "Sorry, the command you have entered has been restricted to admins only."
