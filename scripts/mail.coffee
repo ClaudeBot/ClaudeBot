@@ -30,8 +30,31 @@ module.exports = (robot) ->
                 context.send "#{robot.brain.userForName(recipient).name}: [From #{mail[0]}, #{moment.unix(mail[1]).fromNow()}] #{mail[2]}"
             delete getMails()[recipient]
 
-    robot.respond /unmail(\s?.*)/i, (msg) ->
-        # TODO
+    robot.respond /unmail\s?(.*)/i, (msg) ->
+        deleted = 0
+
+        deleteUsingRecipient = (recipient) ->
+            data = getMails()[recipient.toLowerCase()] or []
+            for mail, index in data by -1
+                if mail[0] is msg.message.user.name
+                    data.splice index, 1
+                    ++deleted
+
+        if msg.match[1]
+            deleteUsingRecipient msg.match[1]
+            if deleted is 0
+                msg.reply "There are no outbound mail sent by you towards #{msg.match[1]}."
+            else
+                msg.reply "#{deleted} of your mail(s) towards #{msg.match[1]} has been deleted."
+            return
+
+        for user, mails of getMails()
+            deleteUsingRecipient user
+
+        if deleted is 0
+            msg.reply "There are no outbound mail sent by you."
+        else
+            msg.reply "#{deleted} of your mail(s) has been deleted."
 
     robot.respond /mail (\S+) (.+)/i, (msg) ->
         [command, recipient, message] = msg.match
