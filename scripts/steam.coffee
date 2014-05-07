@@ -16,6 +16,9 @@
 #
 # Author:
 #   MrSaints
+#
+# Notes:
+#   * Refactor persistence
 
 moment = require 'moment'
 require 'ref'
@@ -61,8 +64,8 @@ module.exports = (robot) ->
     if not STEAM_API_KEY?
         return robot.logger.debug 'Missing STEAM_API_KEY in environment. Please set and try again.'
 
-    steamData = () ->
-        robot.brain.data.steam ?= {}
+    steamData = ->
+        robot.brain.data.steam or= {}
 
     robot.respond /steam id( me)? (.*)/i, (msg) ->
         getSteamID msg, msg.match[2], (id) ->

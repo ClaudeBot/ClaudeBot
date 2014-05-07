@@ -16,6 +16,7 @@
 #
 # Notes:
 #	* TODO: Brain save wrapper? / Dirty-checking -> Save
+#	* TODO: Clear data command?
 #
 # URLS:
 #	GET /
@@ -41,7 +42,7 @@ module.exports = (robot) ->
 		admins = process.env.HUBOT_AUTH_ADMIN.split ','
 
 		robot.respond /(.*)/i, (msg) ->
-			return unless msg.match[1]?
+			return unless msg.match[1]
 
 			matches = adminOnly.filter (command) ->
 				command.match new RegExp(msg.match[1], 'i')
