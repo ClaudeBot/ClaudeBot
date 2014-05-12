@@ -9,14 +9,13 @@
 #   HUBOT_AUTH_ADMIN - A comma separate list of user IDs
 #
 # Commands:
-#   None
+#   hubot delete <key> - Removes <key> and all of its content from the local brain / persistence
 #
 # Author:
 #   MrSaints
 #
 # Notes:
 #	* TODO: Brain save wrapper? / Dirty-checking -> Save
-#	* TODO: Clear data command?
 #
 # URLS:
 #	GET /
@@ -29,6 +28,7 @@ adminOnly = [
 	'show storage'
 	'show users'
 	'fake event'
+	'wipe'
 ]
 
 module.exports = (robot) ->
@@ -50,3 +50,13 @@ module.exports = (robot) ->
 			if matches.length > 0 and msg.message.user.id.toString() not in admins
 				msg.message.done = true
 				msg.reply "Sorry, the command you have entered has been restricted to admins only."
+
+	robot.respond /wipe (.*)/i, (msg) ->
+		key = msg.match[1]
+
+		unless robot.brain.data[key]?
+			msg.reply "The key you have entered (\"#{key}\") does not exist."
+			return
+
+		delete robot.brain.data[key]
+		msg.reply "\"#{key}\" and all of its contents have been wiped from the brain."
