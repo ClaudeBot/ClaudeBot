@@ -8,6 +8,8 @@
 #   None
 #
 # Commands:
+#   hubot ttv fav - Returns information about your five favourite streams (tracking)
+#   hubot ttv fav <add|rm> <name> - <Add> or <rm> stream <name> to/from your list of five favourite streams
 #   hubot ttv featured - Returns the first 5 featured live streams
 #   hubot ttv game <category> - Returns the first 5 live streams in a game <category> (case-sensitive)
 #   hubot ttv search <query> - Returns the first 5 live streams matching the search <query>
@@ -23,6 +25,18 @@
 
 module.exports = (robot) ->
     maxResults = 5
+
+    twitchData = ->
+        robot.brain.data.twitch or= {}
+
+    robot.respond /ttv fav/i, (msg) ->
+        return
+
+    robot.respond /ttv fav (add|rm) (.+)/i, (msg) ->
+        type = msg.match[1]
+        stream = msg.match[2]
+
+        return
 
     robot.respond /ttv featured/i, (msg) ->
         twitch_request msg, '/streams/featured', limit: maxResults, (object) ->
@@ -77,7 +91,7 @@ module.exports = (robot) ->
         createURL = (game) ->
             "http://www.twitch.tv/directory/game/#{encodeURIComponent(game)}"
 
-        twitch_request msg, "/games/top", limit: 5, (object) ->
+        twitch_request msg, "/games/top", limit: maxResults, (object) ->
             for gameObj, i in object.top
                 msg.send "#{i + 1}. #{gameObj.game.name} | Viewers: #{gameObj.viewers} | Channels: #{gameObj.channels} | #{createURL(gameObj.game.name)}"
 
