@@ -44,7 +44,7 @@ module.exports = (robot) ->
                 channel = feature.stream.channel
                 msg.send "#{feature.stream.game}: #{channel.display_name} (#{channel.status}) - #{channel.url} [Viewers: #{feature.stream.viewers}]"
 
-    robot.respond /ttv game (.*)/i, (msg) ->
+    robot.respond /ttv game (.+)/i, (msg) ->
         category = msg.match[1]
         twitch_request msg, '/streams', { game: category, limit: maxResults }, (object) ->
             if object._total is 0
@@ -58,7 +58,7 @@ module.exports = (robot) ->
             if object._total > maxResults
                 msg.reply "There are #{object._total - maxResults} other \"#{category}\" live streams."
 
-    robot.respond /ttv search (.*)/i, (msg) ->
+    robot.respond /ttv search (.+)/i, (msg) ->
         query = msg.match[1]
         twitch_request msg, "/search/streams", { q: query, limit: maxResults }, (object) ->
             if object._total is 0
@@ -72,7 +72,7 @@ module.exports = (robot) ->
             if object._total > maxResults
                 msg.reply "There are #{object._total - maxResults} other live streams matching your search query: \"#{query}\"."
 
-    robot.respond /ttv stream (.*)/i, (msg) ->
+    robot.respond /ttv stream (.+)/i, (msg) ->
         twitch_request msg, "/streams/#{msg.match[1]}", null, (object) ->
             if object.status is 404
                 msg.reply "The stream you have entered (\"#{msg.match[1]}\") does not exist."
