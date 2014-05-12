@@ -162,26 +162,22 @@ module.exports = (robot) ->
                 msg.reply "The custom URL you have entered (\"#{customURL}\") does not exist."
                 return
 
-            if steamData()[object.response.steamid]?
-                steamData()[object.response.steamid].url = customURL
-            else
-                steamData()[object.response.steamid] = url: customURL
+            steamData()[object.response.steamid] or= {}
+            steamData()[object.response.steamid].url = customURL
 
             handler object.response.steamid
 
     getCommunityID = (steamID) ->
-        if steamData()[steamID]?.communityID?
-            return steamData()[steamID].communityID
+        if steamData()[steamID]?.cID?
+            return steamData()[steamID].cID
 
         # 64 -> 32
         buffer = new Buffer 8
         buffer.writeUInt64LE steamID, 0
         communityID = buffer.readUInt32LE 0
 
-        if steamData()[steamID]?
-            steamData()[steamID].communityID = communityID
-        else
-            steamData()[steamID] = communityID: communityID
+        steamData()[steamID] or= {}
+        steamData()[steamID].cID = communityID
 
         communityID
 
