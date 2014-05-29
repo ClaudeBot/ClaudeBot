@@ -1,5 +1,5 @@
 # Description:
-#   Dweet.io powered Hubot Brain
+#   Dweet.io and MsgPack powered Hubot Brain
 #
 # Dependencies:
 #   "moment": "^2.6.0"
@@ -55,7 +55,7 @@ module.exports = (robot) ->
     robot.brain.resetSaveInterval DWEET_AUTOSAVE
 
     getData = ->
-        dweet_request robot, '/get/latest/dweet', null, (dweet) ->
+        dweetRequest robot, '/get/latest/dweet', null, (dweet) ->
             if dweet.with is 404
                 robot.brain.mergeData {}
                 robot.logger.info 'Initializing new data for brain.'
@@ -74,7 +74,7 @@ module.exports = (robot) ->
 
     robot.brain.on 'save', (data = {}) ->
         isIRC = robot.adapterName is 'irc'
-        dweet_request robot, '/dweet', encodeChildren(data, isIRC), (dweet) ->
+        dweetRequest robot, '/dweet', encodeChildren(data, isIRC), (dweet) ->
             return robot.logger.error dweet.because if dweet.this is 'failed'
 
             status.lastSaved = dweet.with.created
@@ -89,7 +89,7 @@ module.exports = (robot) ->
         lastSaved = moment(status.lastSaved).fromNow() or 'N/A'
         msg.reply "Status: #{connected} | Brain last saved: #{lastSaved}"
 
-dweet_request = (robot, endpoint, params = {}, handler) ->
+dweetRequest = (robot, endpoint, params = {}, handler) ->
     params['key'] = DWEET_KEY if DWEET_KEY?
 
     robot.http("https://dweet.io#{endpoint}/for/#{DWEET_THING}")

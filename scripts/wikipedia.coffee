@@ -22,7 +22,7 @@ module.exports = (robot) ->
             limit: 5
             search: msg.match[1]
 
-        wiki_request msg, params, (object) ->
+        wikiRequest msg, params, (object) ->
             if object[1].length is 0
                 msg.reply "No articles were found using search query: \"#{msg.match[1]}\". Try a different query."
                 return
@@ -39,7 +39,7 @@ module.exports = (robot) ->
             prop: 'extracts'
             titles: msg.match[1]
 
-        wiki_request msg, params, (object) ->
+        wikiRequest msg, params, (object) ->
             for id, article of object.query.pages
                 if id is -1
                     msg.reply "The article you have entered (\"#{msg.match[1]}\") does not exist. Try a different article."
@@ -53,7 +53,7 @@ module.exports = (robot) ->
 createURL = (title) ->
     "https://en.wikipedia.org/wiki/#{encodeURIComponent(title)}"
 
-wiki_request = (msg, params = {}, handler) ->
+wikiRequest = (msg, params = {}, handler) ->
     msg.http("http://en.wikipedia.org/w/api.php")
         .query(params)
         .get() (err, res, body) ->

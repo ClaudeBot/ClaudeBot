@@ -39,14 +39,14 @@ module.exports = (robot) ->
         return
 
     robot.respond /ttv featured/i, (msg) ->
-        twitch_request msg, '/streams/featured', limit: maxResults, (object) ->
+        twitchRequest msg, '/streams/featured', limit: maxResults, (object) ->
             for feature in object.featured
                 channel = feature.stream.channel
                 msg.send "#{feature.stream.game}: #{channel.display_name} (#{channel.status}) - #{channel.url} [Viewers: #{feature.stream.viewers}]"
 
     robot.respond /ttv game (.+)/i, (msg) ->
         category = msg.match[1]
-        twitch_request msg, '/streams', { game: category, limit: maxResults }, (object) ->
+        twitchRequest msg, '/streams', { game: category, limit: maxResults }, (object) ->
             if object._total is 0
                 msg.reply "No live streams were found in \"#{category}\". Try a different category or try again later."
                 return
@@ -60,7 +60,7 @@ module.exports = (robot) ->
 
     robot.respond /ttv search (.+)/i, (msg) ->
         query = msg.match[1]
-        twitch_request msg, "/search/streams", { q: query, limit: maxResults }, (object) ->
+        twitchRequest msg, "/search/streams", { q: query, limit: maxResults }, (object) ->
             if object._total is 0
                 msg.reply "No live streams were found using search query: \"#{query}\". Try a different query or try again later."
                 return
@@ -73,7 +73,7 @@ module.exports = (robot) ->
                 msg.reply "There are #{object._total - maxResults} other live streams matching your search query: \"#{query}\"."
 
     robot.respond /ttv stream (.+)/i, (msg) ->
-        twitch_request msg, "/streams/#{msg.match[1]}", null, (object) ->
+        twitchRequest msg, "/streams/#{msg.match[1]}", null, (object) ->
             if object.status is 404
                 msg.reply "The stream you have entered (\"#{msg.match[1]}\") does not exist."
                 return
@@ -91,11 +91,11 @@ module.exports = (robot) ->
         createURL = (game) ->
             "http://www.twitch.tv/directory/game/#{encodeURIComponent(game)}"
 
-        twitch_request msg, "/games/top", limit: maxResults, (object) ->
+        twitchRequest msg, "/games/top", limit: maxResults, (object) ->
             for gameObj, i in object.top
                 msg.send "#{i + 1}. #{gameObj.game.name} | Viewers: #{gameObj.viewers} | Channels: #{gameObj.channels} | #{createURL(gameObj.game.name)}"
 
-twitch_request = (msg, api, params = {}, handler) ->
+twitchRequest = (msg, api, params = {}, handler) ->
     msg.http("https://api.twitch.tv/kraken#{api}")
         .query(params)
         .get() (err, res, body) ->

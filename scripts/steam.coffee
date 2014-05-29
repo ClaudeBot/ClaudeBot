@@ -74,7 +74,7 @@ module.exports = (robot) ->
 
     robot.respond /steam status (.*)/i, (msg) ->
         summary = (steamID) ->
-            steam_request msg, "/ISteamUser/GetPlayerSummaries", steamids: steamID, (object) ->
+            steamRequest msg, "/ISteamUser/GetPlayerSummaries", steamids: steamID, (object) ->
                 player = object.response.players[0]
                 status = if player.communityvisibilitystate is 1 then 'Unavailable (Private)' else personaStates[player.personastate]
                 lastOnline = moment.unix(player.lastlogoff).fromNow()
@@ -96,7 +96,7 @@ module.exports = (robot) ->
             matches_requested: 5
 
         history = (params, type = 'Steam ID') ->
-            steam_request msg, "/IDOTA2Match_570/GetMatchHistory", params, (object) ->
+            steamRequest msg, "/IDOTA2Match_570/GetMatchHistory", params, (object) ->
                 if object.result.status is 15
                     msg.reply "The #{type} you have entered (\"#{params.original}\") does not exist or it does not have match history enabled."
                     return
@@ -125,7 +125,7 @@ module.exports = (robot) ->
                 history params, 'profile URL'
 
     robot.respond /dota match (\d+)\s*(.*)?/i, (msg) ->
-        steam_request msg, "/IDOTA2Match_570/GetMatchDetails", match_id: msg.match[1], (object) ->
+        steamRequest msg, "/IDOTA2Match_570/GetMatchDetails", match_id: msg.match[1], (object) ->
             match = object.result
             start = moment.unix(match.start_time).fromNow()
             duration = moment.duration(match.duration, 'seconds').minutes()
@@ -157,7 +157,7 @@ module.exports = (robot) ->
         for steamID, user of steamData()
             return handler steamID if user.url is customURL
 
-        steam_request msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
+        steamRequest msg, "/ISteamUser/ResolveVanityURL", vanityurl: customURL, (object) ->
             if object.response.success is 42
                 msg.reply "The custom URL you have entered (\"#{customURL}\") does not exist."
                 return
@@ -188,7 +188,7 @@ getTowers = (dec) ->
     for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
         if parseInt(status) then towers[tower] else continue
 
-steam_request = (msg, endpoint, params = {}, handler, version = 1) ->
+steamRequest = (msg, endpoint, params = {}, handler, version = 1) ->
     params.key = STEAM_API_KEY
 
     msg.http("http://api.steampowered.com#{endpoint}/v#{version}/")
