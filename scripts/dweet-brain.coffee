@@ -2,7 +2,8 @@
 #   Dweet.io powered Hubot Brain
 #
 # Dependencies:
-#   "moment": "^2.5.1"
+#   "moment": "^2.6.0"
+#   "msgpack": "^0.2.3"
 #
 # Commands:
 #   hubot brain save - Forces a save to Dweet.io
@@ -17,23 +18,23 @@
 #   MrSaints
 
 moment = require 'moment'
+msgpack = require 'msgpack'
 
 DWEET_THING = process.env.DWEET_THING
 DWEET_KEY = process.env.DWEET_KEY
 DWEET_AUTOSAVE = process.env.DWEET_AUTOSAVE or 1800
 
-toBase64 = (json) ->
-    new Buffer(JSON.stringify(json)).toString 'base64'
+toBase64 = (object) ->
+    msgpack.pack(object).toString('base64')
 
-fromBase64 = (base64) ->
-    JSON.parse new Buffer(base64, 'base64').toString 'ascii'
+fromBase64 = (encodedObject) ->
+    msgpack.unpack new Buffer(encodedObject, 'base64')
 
 encodeChildren = (object, ignoreUsers = false) ->
     encodedObject = {}
     for key, value of object
         continue if ignoreUsers and key is 'users'
         encodedObject[key] = toBase64 value
-
     encodedObject
 
 decodeChildren = (object) ->
