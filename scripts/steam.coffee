@@ -2,8 +2,8 @@
 #   Steam Web API (Dota 2)
 #
 # Dependencies:
-#   "moment": "^2.5.1"
-#   "ref": "^0.1.3"
+#   "moment": "^2.6.0"
+#   "ref": "^0.2.1"
 #
 # Configuration:
 #   STEAM_API_KEY

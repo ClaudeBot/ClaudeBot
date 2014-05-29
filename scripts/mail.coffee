@@ -2,7 +2,7 @@
 #   Mail System
 #
 # Dependencies:
-#   "moment": "^2.5.1"
+#   "moment": "^2.6.0"
 #
 # Configuration:
 #   None
