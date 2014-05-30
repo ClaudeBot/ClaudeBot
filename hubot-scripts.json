@@ -1,8 +1,8 @@
 [
-	"shipit.coffee",
 	"excuse.coffee",
 	"flip.coffee",
 	"reload.coffee",
 	"roll.coffee",
+	"shipit.coffee",
 	"youtube-info.coffee"
 ]
