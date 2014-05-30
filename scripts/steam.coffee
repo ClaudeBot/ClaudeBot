@@ -3,6 +3,7 @@
 #
 # Dependencies:
 #   "moment": "^2.6.0"
+#   "msgpack": "^0.2.3"
 #   "ref": "^0.2.1"
 #
 # Configuration:
@@ -20,7 +21,9 @@
 # Notes:
 #   * Refactor persistence
 
+fs = require 'fs'
 moment = require 'moment'
+msgpack = require 'msgpack'
 require 'ref'
 
 STEAM_API_KEY = process.env.STEAM_API_KEY
@@ -35,7 +38,7 @@ personaStates = [
     "Looking to play"
 ]
 
-heroes = require '../data/heroes'
+heroData = []
 lobbies =
     "-1": "Invalid"
     0: "Public matchmaking"
@@ -63,6 +66,10 @@ towers = [
 module.exports = (robot) ->
     if not STEAM_API_KEY?
         return robot.logger.debug 'Missing STEAM_API_KEY in environment. Please set and try again.'
+
+    fs.readFile 'data/heroes.bin', (err, data) ->
+        return robot.logger.error if err
+        heroData = msgpack.unpack data
 
     steamData = ->
         robot.brain.data.steam or= {}
@@ -112,7 +119,7 @@ module.exports = (robot) ->
 
                     for player in match.players
                         if player.account_id is communityID
-                            hero = getHero(player.hero_id).localized_name
+                            hero = getHero(player.hero_id).LocalizedName
                             break;
 
                     msg.send "Match ID: #{match.match_id} | Lobby: #{lobbies[match.lobby_type]} | Hero: #{hero} | #{start}"
@@ -142,7 +149,7 @@ module.exports = (robot) ->
                 for player in match.players
                     if player.account_id is communityID
                         faction = if player.player_slot > 4 then 'Dire' else 'Radiant'
-                        msg.reply "#{getHero(player.hero_id).localized_name} (Lvl #{player.level}), #{faction} | KDA: #{player.kills}/#{player.deaths}/#{player.assists} | LH: #{player.last_hits} | GPM: #{player.gold_per_min} | XPM: #{player.xp_per_min}"
+                        msg.reply "#{getHero(player.hero_id).LocalizedName} (Lvl #{player.level}), #{faction} | KDA: #{player.kills}/#{player.deaths}/#{player.assists} | LH: #{player.last_hits} | GPM: #{player.gold_per_min} | XPM: #{player.xp_per_min}"
                         return
                 msg.reply "The Steam ID you have entered (\"#{msg.match[1]}\") was not found in Match ID #{match.match_id}."
 
@@ -182,7 +189,7 @@ module.exports = (robot) ->
         communityID
 
 getHero = (heroID) ->
-    return hero for hero in heroes when hero.id is heroID
+    return hero for hero in heroData.Heroes when hero.Id is heroID
 
 getTowers = (dec) ->
     for status, tower in "00000000000#{(+dec).toString(2)}".slice(-11).split('')
