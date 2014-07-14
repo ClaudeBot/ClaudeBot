@@ -53,6 +53,7 @@ A full list of command may be found by visiting the bot via HTTP `/RobotName/hel
 - **hubot dota match \<match ID\> [\<Steam ID|custom URL\>]:** Returns information about a particular \<match ID\>. Optionally, if \<Steam ID\> or \<custom URL\> is included, its match information will also be returned
 - **hubot mail \<recipient\> \<message\>:** Sends a \<message\> to \<recipient\> when found available
 - **hubot unmail [\<recipient\>]:** Deletes all mail sent by you. Optionally, if \<recipient\> is specified, all mail sent to \<recipient\> by you will be deleted
+- **hubot \<search|google\> \<query\>:** Queries Google Search for \<query\> and returns the first 5 results
 - **hubot delete \<key\>:** Removes \<key\> and all of its content from the local brain / persistence
 - **hubot brain save:** Forces a save to Dweet.io
 - **hubot brain status:** Returns the brain status
