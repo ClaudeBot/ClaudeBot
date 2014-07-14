@@ -25,13 +25,13 @@
   },
   "dependencies": {
     "hubot": "^2.7.5",
-    "hubot-scripts": "^2.5.14",
-    "hubot-irc": "^0.2.6",
+    "hubot-scripts": "^2.5.15",
+    "hubot-irc": "^0.2.7",
     "flip": "^0.1.1",
     "cool-ascii-faces": "^1.3.3",
     "underscore": "^1.6.0",
-    "moment": "^2.6.0",
-    "ref": "^0.2.1",
+    "moment": "^2.7.0",
+    "ref": "^0.3.2",
     "msgpack": "^0.2.3"
   },
   "engines": {
