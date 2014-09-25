@@ -2,7 +2,8 @@
     "hubot-auth",
     "hubot-google-images",
     "hubot-google-translate",
+    "hubot-hearthstone",
     "hubot-help",
     "hubot-rules",
-    "hubot-youtube",
+    "hubot-youtube"
 ]

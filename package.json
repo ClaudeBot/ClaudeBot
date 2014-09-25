@@ -30,6 +30,7 @@
     "hubot-auth": "^1.1.2",
     "hubot-google-images": "^0.1.0",
     "hubot-google-translate": "^0.1.0",
+    "hubot-hearthstone": "0.0.6",
     "hubot-help": "^0.1.1",
     "hubot-irc": "^0.2.7",
     "hubot-rules": "^0.1.0",
