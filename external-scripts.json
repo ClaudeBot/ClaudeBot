@@ -1,1 +1,8 @@
-[]
+[
+    "hubot-auth",
+    "hubot-google-images",
+    "hubot-google-translate",
+    "hubot-help",
+    "hubot-rules",
+    "hubot-youtube",
+]
