@@ -47,7 +47,7 @@ module.exports = (robot) ->
             matches = adminOnly.filter (command) ->
                 command.match new RegExp(msg.match[1], 'i')
 
-            if matches.length > 0 and msg.message.user.id.toString() not in admins
+            if matches.length > 0 and not robot.auth.isAdmin(msg.message.user)
                 msg.message.done = true
                 msg.reply "Sorry, the command you have entered has been restricted to admins only."
 
