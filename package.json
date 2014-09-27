@@ -36,7 +36,7 @@
     "hubot-rules": "^0.1.0",
     "hubot-scripts": ">= 2.5.0 < 3.0.0",
     "hubot-youtube": "^0.1.2",
-    "moment": "^2.7.0",
+    "moment": "^2.8.3",
     "msgpack": "^0.2.3",
     "ref": "^0.3.2",
     "underscore": "^1.6.0"

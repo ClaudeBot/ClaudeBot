@@ -3,7 +3,7 @@
 #   For everything else that don't belong...
 #
 # Dependencies:
-#   "moment": "^2.6.0"
+#   "moment": "^2.8.3"
 #
 # Configuration:
 #   HUBOT_AUTH_ADMIN - A comma separate list of user IDs
