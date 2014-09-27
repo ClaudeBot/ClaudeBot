@@ -2,80 +2,99 @@
 #   Mail System
 #
 # Dependencies:
-#   "moment": "^2.6.0"
+#   "moment": "^2.8.3"
 #
 # Configuration:
 #   None
 #
 # Commands:
 #   hubot mail <recipient> <message> - Sends a <message> to <recipient> when found available
-#   hubot unmail [<recipient>] - Deletes all mail sent by you. Optionally, if <recipient> is specified, all mail sent to <recipient> by you will be deleted
+#   hubot unmail [<recipient>] - Deletes all mail sent by you. Optionally, if <recipient> is specified, only mail sent to <recipient> by you will be deleted
 #
 # Author:
 #   MrSaints
 
 moment = require 'moment'
 
+#
+# Config
+#
+MAIL_STORAGE_KEY = process.env.HUBOT_MAIL_KEY or "_mail"
+
 module.exports = (robot) ->
-    getMails = ->
-        robot.brain.data.mails or= {}
+    # Returns mail from the brain or an empty object if none is found
+    GetMail = ->
+        robot.brain.data[MAIL_STORAGE_KEY] or= {}
 
-    deliverMails = (context, recipient) ->
-        return unless robot.brain.data.mails?
-
-        recipient = recipient.toLowerCase()
-
-        if mails = getMails()[recipient]
+    # Delivers all mail belonging to a recipient in `ctx` via reply()
+    # Returns nothing
+    DeliverMail = (ctx) ->
+        recipient = ctx.message.user.name.toLowerCase()
+        if mails = GetMail()[recipient]
             for mail in mails
-                context.send "#{robot.brain.userForName(recipient).name}: [From #{mail[0]}, #{moment.unix(mail[1]).fromNow()}] #{mail[2]}"
-            delete getMails()[recipient]
+                ctx.reply "[From #{mail[0]}, #{moment.unix(mail[1]).fromNow()}] #{mail[2]}"
+            delete GetMail()[recipient]
+            ctx.robot.brain.save()
 
+    #
+    # Hubot commands
+    #
     robot.respond /unmail\s?(.*)/i, (msg) ->
         deleted = 0
 
-        deleteUsingRecipient = (recipient) ->
-            data = getMails()[recipient.toLowerCase()] or []
-            for mail, index in data by -1
-                if mail[0] is msg.message.user.name
-                    data.splice index, 1
-                    ++deleted
+        # TODO: Detect and delete empty nodes
+        DeleteByRecipient = (recipient) ->
+            if mails = GetMail()[recipient.toLowerCase()]
+                for mail, index in mails by -1
+                    if mail[0] is msg.message.user.name.toLowercase()
+                        mails.splice index, 1
+                        ++deleted
 
-        if msg.match[1]
-            deleteUsingRecipient msg.match[1]
+        # Delete using a specified recipient
+        if recipient = msg.match[1]
+            DeleteByRecipient recipient
             if deleted is 0
-                msg.reply "There are no outbound mail sent by you towards #{msg.match[1]}."
+                msg.reply "There are no outbound mail sent by you towards #{recipient}."
             else
-                msg.reply "#{deleted} of your mail(s) towards #{msg.match[1]} has been deleted."
+                msg.reply "#{deleted} of your mail(s) towards #{recipient} has been deleted."
+                robot.brain.save()
             return
 
-        for user, mails of getMails()
-            deleteUsingRecipient user
+        # Delete all from sender / command executor
+        for recipient, mails of GetMail()
+            DeleteByRecipient recipient
 
         if deleted is 0
             msg.reply "There are no outbound mail sent by you."
         else
             msg.reply "#{deleted} of your mail(s) has been deleted."
+            robot.brain.save()
 
     robot.respond /mail (\S+) (.+)/i, (msg) ->
-        [command, recipient, message] = msg.match
-        sender = msg.message.user.name
-
-        if recipient is robot.name
-            msg.reply "Thanks, but no thanks! I do not need any mail."
-            return
-
-        if recipient is sender
-            msg.reply "Are you sure you want to send a mail to yourself? Sad."
-            return
-
+        [_command, recipient, message] = msg.match
+        sender = msg.message.user.name.toLowerCase()
         recipient = recipient.toLowerCase()
 
-        getMails()[recipient] or= []
-        getMails()[recipient].push [sender, moment().unix(), message]
-        msg.reply "Your mail has been prepared for #{recipient}."
+        if sender is recipient
+            msg.reply "Are you sure you want to send a mail to yourself? Sad."
+            false
+        if recipient is robot.name.toLowerCase()
+            msg.reply "Thanks, but no thanks! I do not need any mail."
+            false
 
-    robot.enter (response) ->
-        deliverMails response, response.message.user.name
+        try
+            GetMail()[recipient] or= []
+            GetMail()[recipient].push [sender, moment().unix(), message]
+            robot.brain.save()
+            msg.reply "Your mail has been prepared for #{recipient}."
+        catch error
+            return robot.logger.error error
+
+    #
+    # Hubot events
+    #
+    robot.enter (msg) ->
+        DeliverMail msg
 
     robot.hear /./i, (msg) ->
-        deliverMails msg, msg.message.user.name
+        DeliverMail msg
