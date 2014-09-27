@@ -23,6 +23,7 @@
 #
 # Config
 #
+TWITCH_API_KEY = process.env.TWITCH_API_KEY
 TWITCH_MAX_RESULTS = 5
 TWITCH_STORAGE_KEY = process.env.HUBOT_TWITCH_KEY or "_twitch"
 
@@ -123,6 +124,7 @@ module.exports = (robot) ->
                 msg.send "#{i + 1}. #{gameObj.game.name} | Viewers: #{gameObj.viewers} | Channels: #{gameObj.channels} | #{createGameURL(gameObj.game.name)}"
 
 GetTwitchResult = (msg, api, params = {}, handler) ->
+    params.client_id = TWITCH_API_KEY
     params.limit or= TWITCH_MAX_RESULTS
     msg.http("https://api.twitch.tv/kraken#{api}")
         .query(params)
