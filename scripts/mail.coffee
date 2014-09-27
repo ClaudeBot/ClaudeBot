@@ -5,7 +5,7 @@
 #   "moment": "^2.8.3"
 #
 # Configuration:
-#   None
+#   HUBOT_MAIL_KEY
 #
 # Commands:
 #   hubot mail <recipient> <message> - Sends a <message> to <recipient> when found available

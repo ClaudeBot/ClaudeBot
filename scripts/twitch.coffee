@@ -5,7 +5,8 @@
 #   None
 #
 # Configuration:
-#   None
+#   TWITCH_API_KEY
+#   HUBOT_TWITCH_KEY
 #
 # Commands:
 #   hubot ttv follows - Returns live streams belonging to your followed channels (list populated from your linked Twitch user)
