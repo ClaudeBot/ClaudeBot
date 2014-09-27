@@ -46,7 +46,7 @@ module.exports = (robot) ->
         DeleteByRecipient = (recipient) ->
             if mails = GetMail()[recipient.toLowerCase()]
                 for mail, index in mails by -1
-                    if mail[0] is msg.message.user.name.toLowercase()
+                    if mail[0] is msg.message.user.name.toLowerCase()
                         mails.splice index, 1
                         ++deleted
 
@@ -58,17 +58,17 @@ module.exports = (robot) ->
             else
                 msg.reply "#{deleted} of your mail(s) towards #{recipient} has been deleted."
                 robot.brain.save()
-            return
 
         # Delete all from sender / command executor
-        for recipient, mails of GetMail()
-            DeleteByRecipient recipient
-
-        if deleted is 0
-            msg.reply "There are no outbound mail sent by you."
         else
-            msg.reply "#{deleted} of your mail(s) has been deleted."
-            robot.brain.save()
+            for recipient, mails of GetMail()
+                DeleteByRecipient recipient
+
+            if deleted is 0
+                msg.reply "There are no outbound mail sent by you."
+            else
+                msg.reply "#{deleted} of your mail(s) has been deleted."
+                robot.brain.save()
 
     robot.respond /mail (\S+) (.+)/i, (msg) ->
         [_command, recipient, message] = msg.match
@@ -77,18 +77,16 @@ module.exports = (robot) ->
 
         if sender is recipient
             msg.reply "Are you sure you want to send a mail to yourself? Sad."
-            false
-        if recipient is robot.name.toLowerCase()
+        else if recipient is robot.name.toLowerCase()
             msg.reply "Thanks, but no thanks! I do not need any mail."
-            false
-
-        try
-            GetMail()[recipient] or= []
-            GetMail()[recipient].push [sender, moment().unix(), message]
-            robot.brain.save()
-            msg.reply "Your mail has been prepared for #{recipient}."
-        catch error
-            return robot.logger.error error
+        else
+            try
+                GetMail()[recipient] or= []
+                GetMail()[recipient].push [sender, moment().unix(), message]
+                robot.brain.save()
+                msg.reply "Your mail has been prepared for #{recipient}."
+            catch error
+                robot.logger.error error
 
     #
     # Hubot events
