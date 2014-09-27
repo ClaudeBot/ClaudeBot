@@ -33,7 +33,7 @@ module.exports = (robot) ->
     robot.respond /ttv follows/i, (msg) ->
         user = msg.message.user.name.toLowerCase()
         if twitchUser = GetTTVData()[user]
-            GetTwitchResult msg, "/users/#{twitchUser}/follows/channels", null, (followsObj) ->
+            GetTwitchResult msg, "/users/#{twitchUser}/follows/channels", { limit: 100 }, (followsObj) ->
                 if followsObj._total is 0 or followsObj.status is 404
                     msg.reply "Your Twitch account is not following anyone or it does not exist."
                     return
