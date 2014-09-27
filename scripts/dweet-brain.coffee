@@ -2,7 +2,7 @@
 #   Dweet.io and MsgPack powered Hubot Brain
 #
 # Dependencies:
-#   "moment": "^2.6.0"
+#   "moment": "^2.8.3"
 #   "msgpack": "^0.2.3"
 #
 # Commands:
@@ -24,23 +24,23 @@ DWEET_THING = process.env.DWEET_THING
 DWEET_KEY = process.env.DWEET_KEY
 DWEET_AUTOSAVE = process.env.DWEET_AUTOSAVE or 1800
 
-toBase64 = (object) ->
+Serialize = (object) ->
     msgpack.pack(object).toString('base64')
 
-fromBase64 = (encodedObject) ->
+Unserialize = (encodedObject) ->
     msgpack.unpack new Buffer(encodedObject, 'base64')
 
-encodeChildren = (object, ignoreUsers = false) ->
+EncodeChildren = (object, ignoreUsers = false) ->
     encodedObject = {}
     for key, value of object
         continue if ignoreUsers and key is 'users'
-        encodedObject[key] = toBase64 value
+        encodedObject[key] = Serialize value
     encodedObject
 
-decodeChildren = (object) ->
+DecodeChildren = (object) ->
     decodedObject = {}
     for key, value of object
-        decodedObject[key] = fromBase64 value
+        decodedObject[key] = Unserialize value
     decodedObject
 
 module.exports = (robot) ->
@@ -63,7 +63,7 @@ module.exports = (robot) ->
             else if dweet.this is 'failed'
                 return robot.logger.error dweet.because
             else
-                content = decodeChildren dweet.with[0].content
+                content = DecodeChildren dweet.with[0].content
                 robot.brain.mergeData content
                 robot.logger.info 'Data for brain retrieved from Dweet.io.'
                 status.lastSaved = dweet.with[0].created
@@ -74,7 +74,7 @@ module.exports = (robot) ->
 
     robot.brain.on 'save', (data = {}) ->
         isIRC = robot.adapterName is 'irc'
-        dweetRequest robot, '/dweet', encodeChildren(data, isIRC), (dweet) ->
+        dweetRequest robot, '/dweet', EncodeChildren(data, isIRC), (dweet) ->
             return robot.logger.error dweet.because if dweet.this is 'failed'
 
             status.lastSaved = dweet.with.created
