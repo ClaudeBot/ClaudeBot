@@ -2,7 +2,7 @@
 #   Steam Web API w/ Dota 2
 #
 # Dependencies:
-#   "moment": "^2.8.1"
+#   "moment": "^2.8.3"
 #   "msgpack": "^0.2.3"
 #   "ref": "^0.3.2"
 #
@@ -78,14 +78,13 @@ DOTA_HEROES = {}
 GetSteamResult = (msg, endpoint, params = {}, handler, version = 1) ->
     params.key = STEAM_API_KEY
 
-    # Impl: Try-catch
     msg.http("#{STEAM_API_URL}/#{endpoint}/v#{version}/")
         .query(params)
         .get() (err, res, body) ->
             if err or res.statusCode isnt 200
                 err = "Bad request (invalid Steam web API key)" if res.statusCode is 400
-                msg.reply "An error occurred while attempting to process your request."
-                return robot.logger.error err
+                msg.reply "An error occurred while attempting to process your request. Please try again later."
+                return msg.robot.logger.error err
             handler JSON.parse(body)
 
 #
@@ -99,7 +98,6 @@ GetSteamID = (msg, customURL, callback) ->
         callback object.response.steamid
 
 _GetCommunityID = (steamID) ->
-    # Impl: Try-catch
     buffer = new Buffer 8
     buffer.writeUInt64LE steamID, 0
     communityID = buffer.readUInt32LE 0
@@ -174,7 +172,6 @@ Init = (robot) ->
     if not STEAM_API_KEY?
         return robot.logger.debug "Missing STEAM_API_KEY in environment. Please set and try again."
 
-    # Impl: Try-catch
     fs.readFile DOTA_HEROES_DATA_PATH, (err, data) ->
         return robot.logger.error if err
         DOTA_HEROES = msgpack.unpack data
@@ -212,7 +209,7 @@ module.exports = (robot) ->
                 date = moment.unix(match.start_time).fromNow()
                 target = _GetPlayer communityID, match.players
                 hero = _GetHero(target.hero_id).LocalizedName
-                # W / L TBA
+                # TODO: W / L TBA
                 msg.send "Match ID: #{match.match_id} | Lobby: #{DOTA_LOBBIES[match.lobby_type]} | Hero: #{hero} | #{date}"
 
     # GET Player Dota 2 match details
@@ -238,7 +235,7 @@ module.exports = (robot) ->
                     return
                 faction = _GetFaction target.player_slot
                 msg.reply "#{faction} - #{_GetHero(target.hero_id).LocalizedName} (Lvl #{target.level}) | KDA: #{target.kills}/#{target.deaths}/#{target.assists} | LH: #{target.last_hits} | GPM: #{target.gold_per_min} | XPM: #{target.xp_per_min} | HD: #{target.hero_damage} | TD: #{target.tower_damage} | TGE: #{target.gold_per_min*duration}"
-                # Future: Team fight contribution? Overall contribution algo.
+                # Future (TODO): Team fight contribution? Overall contribution algo.
 
             if genericID?
                 if _IsSteamID genericID
