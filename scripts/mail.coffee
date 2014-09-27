@@ -34,7 +34,7 @@ module.exports = (robot) ->
             for mail in mails
                 ctx.reply "[From #{mail[0]}, #{moment.unix(mail[1]).fromNow()}] #{mail[2]}"
             delete GetMail()[recipient]
-            ctx.robot.brain.save()
+            robot.brain.save()
 
     #
     # Hubot commands
@@ -61,7 +61,7 @@ module.exports = (robot) ->
 
         # Delete all from sender / command executor
         else
-            for recipient, mails of GetMail()
+            for recipient, _mails of GetMail()
                 DeleteByRecipient recipient
 
             if deleted is 0
