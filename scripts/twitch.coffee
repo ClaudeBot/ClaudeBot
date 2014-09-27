@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#   hubot ttv fav - Returns information about your five favourite streams (tracking)
-#   hubot ttv fav <add|rm> <name> - <Add> or <rm> stream <name> to/from your list of five favourite streams
+#   hubot ttv follows - Returns live streams belonging to your followed channels (list populated from your linked Twitch user)
+#   hubot ttv link <user> - Link Twitch <user> to you
 #   hubot ttv featured - Returns the first 5 featured live streams
 #   hubot ttv game <category> - Returns the first 5 live streams in a game <category> (case-sensitive)
 #   hubot ttv search <query> - Returns the first 5 live streams matching the search <query>
@@ -19,9 +19,6 @@
 # Author:
 #   MrSaints
 #   mbwk
-#
-# Todo:
-# - Save favourites?
 
 #
 # Config
@@ -33,14 +30,40 @@ module.exports = (robot) ->
     GetTTVData = ->
         robot.brain.data[TWITCH_STORAGE_KEY] or= {}
 
-    robot.respond /ttv fav/i, (msg) ->
-        return
+    robot.respond /ttv follows/i, (msg) ->
+        user = msg.message.user.name.toLowerCase()
+        if twitchUser = GetTTVData()[user]
+            GetTwitchResult msg, "/users/#{twitchUser}/follows/channels", null, (followsObj) ->
+                if followsObj._total is 0 or followsObj.status is 404
+                    msg.reply "Your Twitch account is not following anyone or it does not exist."
+                    return
+                total = 0
+                processing = followsObj.follows.length
+                for followedChannel, index in followsObj.follows
+                    GetTwitchResult msg, "/streams/#{followedChannel.channel.name}", null, (object) ->
+                        --processing
+                        if object.status isnt 404 and object.stream
+                            ++total
+                            channel = object.stream.channel
+                            msg.send "#{channel.display_name} is streaming #{channel.game} @ #{channel.url}"
+                        if processing is 0
+                            total = "None" if total is 0
+                            return msg.reply "#{total} of your followed channels are currently streaming."
+        else
+            msg.reply "You have not linked your Twitch account yet."
 
-    robot.respond /ttv fav (add|rm) (.+)/i, (msg) ->
-        type = msg.match[1]
-        stream = msg.match[2]
+    robot.respond /ttv link (.+)/i, (msg) ->
+        user = msg.message.user.name.toLowerCase()
+        twitchUser = msg.match[1]
 
-        return
+        GetTwitchResult msg, "/users/#{twitchUser}", null, (object) ->
+            if object.status is 404
+                msg.reply "The user you have entered (\"#{twitchUser}\") does not exist."
+                return
+
+            GetTTVData()[user] = twitchUser
+            robot.brain.save()
+            msg.reply "Twitch user \"#{twitchUser}\" is now linked to you."
 
     robot.respond /ttv featured/i, (msg) ->
         GetTwitchResult msg, '/streams/featured', null, (object) ->
