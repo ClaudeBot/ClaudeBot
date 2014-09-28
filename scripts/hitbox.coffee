@@ -23,6 +23,11 @@ module.exports = (robot) ->
                 return
 
             livestream = object.livestream[0]
+
+            if livestream.media_is_live is "0"
+                msg.reply "#{livestream.media_user_name} is not currently streaming."
+                return
+
             msg.reply "http://hitbox.tv/#{livestream.media_user_name} is currently streaming #{livestream.category_name}"
             msg.send "They have been streaming since #{livestream.media_live_since}"
 
