@@ -9,7 +9,7 @@
 #   HUBOT_TWITCH_KEY
 #
 # Commands:
-#   hubot ttv follows - Returns live streams belonging to your followed channels (list populated from your linked Twitch user)
+#   hubot ttv follows - Returns the 10 most recent live streams belonging to your followed channels (list populated from your linked Twitch user)
 #   hubot ttv link <user> - Link Twitch <user> to you
 #   hubot ttv featured - Returns the first 5 featured live streams
 #   hubot ttv game <category> - Returns the first 5 live streams in a game <category> (case-sensitive)
@@ -35,7 +35,7 @@ module.exports = (robot) ->
     robot.respond /ttv follows/i, (msg) ->
         user = msg.message.user.name.toLowerCase()
         if twitchUser = GetTTVData()[user]
-            GetTwitchResult msg, "/users/#{twitchUser}/follows/channels", { limit: 100 }, (followsObj) ->
+            GetTwitchResult msg, "/users/#{twitchUser}/follows/channels", { limit: 10, sortby: "last_broadcast" }, (followsObj) ->
                 if followsObj._total is 0 or followsObj.status is 404
                     msg.reply "Your Twitch account is not following anyone or it does not exist."
                     return
@@ -49,7 +49,7 @@ module.exports = (robot) ->
                             channel = object.stream.channel
                             msg.send "#{channel.display_name} is streaming #{channel.game} @ #{channel.url}"
                         if processing is 0
-                            total = "None" if total is 0
+                            total = if total is 0 then "None" else total + " or more"
                             return msg.reply "#{total} of your followed channels are currently streaming."
         else
             msg.reply "You have not linked your Twitch account yet."
