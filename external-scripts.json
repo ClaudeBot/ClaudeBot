@@ -1,9 +1,13 @@
 [
+    "hubot-ab",
     "hubot-auth",
+    "hubot-hitbox",
     "hubot-google-images",
     "hubot-google-translate",
     "hubot-hearthstone",
     "hubot-help",
     "hubot-rules",
+    "hubot-steam-webapi",
+    "hubot-twitch",
     "hubot-youtube"
 ]
