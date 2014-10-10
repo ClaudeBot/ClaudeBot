@@ -36,7 +36,7 @@
     "hubot-hearthstone": "0.0.6",
     "hubot-help": "^0.1.1",
     "hubot-hitbox": "^1.0.0",
-    "hubot-irc": "^0.2.7",
+    "hubot-irc": "git://github.com/ClaudeBot/hubot-irc.git#master",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": ">= 2.5.0 < 3.0.0",
     "hubot-steam-webapi": "^1.0.1",
