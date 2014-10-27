@@ -31,6 +31,7 @@
     "hubot": ">= 2.6.0 < 3.0.0",
     "hubot-ab": "^1.0.1",
     "hubot-auth": "^1.1.2",
+    "hubot-googl": "^1.0.0",
     "hubot-google-images": "^0.1.0",
     "hubot-google-translate": "^0.1.0",
     "hubot-hearthstone": "0.0.6",
