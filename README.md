@@ -1,6 +1,8 @@
 # ClaudeBot
 [![Dependency Status](https://david-dm.org/MrSaints/ClaudeBot.svg)](https://david-dm.org/MrSaints/ClaudeBot)
 
+**Due to recent changes in Hubot and hubot-scripts, the documentation below may not be accurate. `README.MD` is pending major revisions. Suggestions and contributions are welcomed.**
+
 Totally not trying to poke fun at the word cloud. *\*cough CloudIRC\**
 This is a clone of GitHub's Campfire bot, [Hubot](https://hubot.github.com/). He's pretty chill. 
 It is also [WalaoBot's](https://github.com/MrSaints/WalaoBot) highly evolved, French cousin. *Oui, oui.*
