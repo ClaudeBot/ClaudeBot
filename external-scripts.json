@@ -8,6 +8,7 @@
     "hubot-help",
     "hubot-hitbox",
     "hubot-mail",
+    "hubot-paste",
     "hubot-rules",
     "hubot-steam-webapi",
     "hubot-twitch",

@@ -1,6 +1,6 @@
 {
   "name": "claudebot",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": "true",
   "author": "GitHub Inc.",
   "contributors": [
@@ -39,6 +39,7 @@
     "hubot-hitbox": "^1.0.0",
     "hubot-irc": "git://github.com/ClaudeBot/hubot-irc.git#master",
     "hubot-mail": "^1.0.0",
+    "hubot-paste": "^1.0.0",
     "hubot-rules": "^0.1.0",
     "hubot-scripts": ">= 2.5.0 < 3.0.0",
     "hubot-steam-webapi": "^1.0.1",
