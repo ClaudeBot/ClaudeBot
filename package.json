@@ -37,7 +37,7 @@
     "hubot-hearthstone": "0.0.6",
     "hubot-help": "^0.1.1",
     "hubot-hitbox": "^1.0.0",
-    "hubot-irc": "git://github.com/ClaudeBot/hubot-irc.git#master",
+    "hubot-irc": "^0.2.7",
     "hubot-mail": "^1.0.0",
     "hubot-paste": "^1.0.0",
     "hubot-rules": "^0.1.0",
