@@ -3,11 +3,11 @@
 
 **Due to recent changes in Hubot and hubot-scripts, the documentation below may not be accurate. `README.MD` is pending major revisions. Suggestions and contributions are welcomed.**
 
-Totally not trying to poke fun at the word cloud. *\*cough CloudIRC\**
+Totally not trying to poke fun at the word cloud. \**cough CloudIRC*\*
 This is a clone of GitHub's Campfire bot, [Hubot](https://hubot.github.com/). He's pretty chill. 
 It is also [WalaoBot's](https://github.com/MrSaints/WalaoBot) highly evolved, French cousin. *Oui, oui.*
 
-**What do you call a French bot that has been attacked by a bear?** Claude bot. *\*Ba dum ts\**
+**What do you call a French bot that has been attacked by a bear?** Claude bot. \**Ba dum ts*\*
 
 This version is designed to protect and serve the great people of [FyreChat IRC #sandbox](http://fyrechat.net/) (using [Hubot IRC adapter](https://github.com/nandub/hubot-irc)); and to be deployed on [Heroku](http://www.heroku.com).
 
