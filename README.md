@@ -1,4 +1,5 @@
 # ClaudeBot
+[![Build Status](https://travis-ci.org/ClaudeBot/ClaudeBot.svg)](https://travis-ci.org/ClaudeBot/ClaudeBot)
 [![Dependency Status](https://david-dm.org/ClaudeBot/ClaudeBot.svg)](https://david-dm.org/ClaudeBot/ClaudeBot)
 
 **Due to recent changes in Hubot and hubot-scripts, the documentation below may not be accurate. `README.MD` is pending major revisions. Suggestions and contributions are welcomed.**
