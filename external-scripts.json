@@ -11,5 +11,6 @@
     "hubot-rules",
     "hubot-steam-webapi",
     "hubot-twitch",
-    "hubot-youtube"
+    "hubot-youtube",
+    "hubot-youtube-info"
 ]

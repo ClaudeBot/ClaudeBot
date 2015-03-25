@@ -44,6 +44,7 @@
     "hubot-steam-webapi": "^2.0.3",
     "hubot-twitch": "^1.1.1",
     "hubot-youtube": "^0.1.2",
+    "hubot-youtube-info": "git://github.com/ClaudeBot/hubot-youtube-info",
     "moment": "^2.9.0",
     "msgpack": "^0.2.4",
     "underscore": "^1.7.0"
