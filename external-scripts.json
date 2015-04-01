@@ -1,6 +1,7 @@
 [
     "hubot-ab",
     "hubot-auth",
+    "hubot-redis-brain",
     "hubot-googl",
     "hubot-google-images",
     "hubot-google-translate",
