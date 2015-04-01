@@ -1,7 +1,6 @@
 [
     "hubot-ab",
     "hubot-auth",
-    "hubot-redis-brain",
     "hubot-googl",
     "hubot-google-images",
     "hubot-google-translate",
@@ -9,6 +8,7 @@
     "hubot-hitbox",
     "hubot-mail",
     "hubot-paste",
+    "hubot-redis-brain",
     "hubot-rules",
     "hubot-steam-webapi",
     "hubot-twitch",
