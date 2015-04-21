@@ -30,6 +30,7 @@
     "flip": "^0.1.1",
     "hubot": ">= 2.6.0 < 3.0.0",
     "hubot-ab": "^1.1.1",
+    "hubot-archive-today": "0.0.0",
     "hubot-auth": "^1.2.0",
     "hubot-googl": "^1.1.0",
     "hubot-google-images": "^0.1.2",

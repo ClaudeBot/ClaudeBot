@@ -1,5 +1,6 @@
 [
     "hubot-ab",
+    "hubot-archive-today",
     "hubot-auth",
     "hubot-googl",
     "hubot-google-images",
