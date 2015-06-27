@@ -1,3 +1,3 @@
 @echo off
 
-npm update && node_modules\.bin\hubot.cmd %*
+npm install && node_modules\.bin\hubot.cmd --name "ClaudeBot" --alias "!" %*
