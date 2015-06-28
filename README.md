@@ -21,7 +21,11 @@ It is designed to bring the power of [numerous web APIs](https://github.com/Clau
 
 ## Running
 
+If you are just getting started with node.js, npm and Hubot, please check out Hubot's [documentation](https://hubot.github.com/docs/). This documentation assumes you have reasonable experience with the aforementioned technologies.
+
 ### Locally (Shell)
+
+Fork and/or download this repository. Now, execute in the project directory:
 
 ```
 % bin/hubot
@@ -66,7 +70,7 @@ Ensure they are set to avoid any unexpected behaviour or errors. Alternatively, 
 
 ## Scripts
 
-ClaudeBot neither relies on nor supports the old [`hubot-scripts`](https://github.com/github/hubot-scripts) repository. Scripts may be added via NPM and `external-scripts.json`, or through the `scripts/` directory ([search NPM](https://www.npmjs.com/search?q=hubot-) or visit the [organisation](https://github.com/hubot-scripts) for a list of available scripts). We strongly discourage the use of `hubot-scripts`.
+ClaudeBot neither relies on nor supports the old [`hubot-scripts`](https://github.com/github/hubot-scripts) repository. Scripts may be added via npm and `external-scripts.json`, or through the `scripts/` directory ([search npm](https://www.npmjs.com/search?q=hubot-) or visit the [organisation](https://github.com/hubot-scripts) for a list of available scripts). We strongly discourage the use of `hubot-scripts`.
 
 
 ## Commands
