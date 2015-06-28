@@ -13,6 +13,7 @@
     "hubot-rules",
     "hubot-steam-webapi",
     "hubot-twitch",
+    "hubot-wikipedia",
     "hubot-youtube",
     "hubot-youtube-info"
 ]
