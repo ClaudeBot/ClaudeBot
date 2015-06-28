@@ -44,8 +44,9 @@ module.exports = (robot) ->
         robot.respond /(.*)/i, (msg) ->
             return unless msg.match[1]
 
+            userCommand = msg.match[1]
             matches = adminOnly.filter (command) ->
-                command.match new RegExp(msg.match[1], 'i')
+                userCommand.match new RegExp(command, 'i')
 
             if matches.length > 0 and not robot.auth.isAdmin(msg.message.user)
                 msg.message.done = true
