@@ -41,6 +41,29 @@ ClaudeBot's [brain data](https://hubot.github.com/docs/scripting/#persistence) (
 It previously relied on [Dweet.io](http://dweet.io/) for persistence, but is has since been [deprecated](scripts/dweet-brain.disabled) as it is not practical in the long-run.
 
 
+## Environment Variables
+
+The following environment variables (the bot's configuration) are required for certain aspects of the bot to work:
+
+### IRC Adapter
+
+- `HUBOT_IRC_SERVER`
+- `HUBOT_IRC_ROOMS` *(comma-separated)*
+- `HUBOT_IRC_NICK`
+
+View [`hubot-irc`](https://github.com/nandub/hubot-irc) documentation for more information. You may also decide to change the bot's adapter. Alter the `-a` or `--adapter` flag (see [`Procfile`](Procfile) for an example on how it is used).
+
+### Services
+
+- `REDIS_URL`
+- `GOOGLE_API_KEY`
+- `PASTEBIN_API_KEY`
+- `STEAM_API_KEY`
+- `TWITCH_API_KEY`
+
+Ensure they are set to avoid any unexpected behaviour or errors. Alternatively,  you may disable the scripts that require them (e.g. `hubot-steam-webapi` uses the `STEAM_API_KEY`).
+
+
 ## Scripts
 
 ClaudeBot neither relies on nor supports the old [`hubot-scripts`](https://github.com/github/hubot-scripts) repository. Scripts may be added via NPM and `external-scripts.json`, or through the `scripts/` directory ([search NPM](https://www.npmjs.com/search?q=hubot-) or visit the [organisation](https://github.com/hubot-scripts) for a list of available scripts). We strongly discourage the use of `hubot-scripts`.
