@@ -1,10 +1,11 @@
 {
   "name": "claudebot",
-  "version": "2.2.7",
+  "version": "2.3.7",
   "private": "true",
   "author": "Ian Lai <ian@fyianlai.com>",
   "contributors": [
-    "mbwk",
+    "Karl Birch (https://github.com/mbwk)",
+    "Jaglag (https://github.com/Jaglag)",
     "GitHub Inc."
   ],
   "description": "A general-purpose IRC bot powered by Github's Hubot.",
