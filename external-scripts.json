@@ -7,13 +7,11 @@
     "hubot-google-translate",
     "hubot-help",
     "hubot-hitbox",
-    "hubot-mail",
     "hubot-paste",
     "hubot-redis-brain",
     "hubot-rules",
     "hubot-steam-webapi",
     "hubot-twitch",
     "hubot-wikipedia",
-    "hubot-youtube",
-    "hubot-youtube-info"
+    "hubot-youtube"
 ]
