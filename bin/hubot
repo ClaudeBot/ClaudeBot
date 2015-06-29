@@ -5,4 +5,9 @@ set -e
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
+if [ "$NODE_ENV" = "development" ]
+then
+    export NODE_PATH=$NODE_PATH:./node_modules
+fi
+
 exec node_modules/.bin/hubot --name "ClaudeBot" --alias "!" "$@"
