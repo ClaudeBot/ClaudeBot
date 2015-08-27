@@ -1,8 +1,8 @@
 {
   "name": "claudebot",
-  "version": "2.3.7",
+  "version": "2.4.7",
   "private": "true",
-  "author": "Ian Lai <ian@fyianlai.com>",
+  "author": "Ian Lai <os@fyianlai.com>",
   "contributors": [
     "Karl Birch (https://github.com/mbwk)",
     "Jaglag (https://github.com/Jaglag)",
@@ -28,6 +28,7 @@
     "hubot-ab": "^1.1.1",
     "hubot-archive-today": "^1.1.4",
     "hubot-auth": "^1.2.0",
+    "hubot-diagnostics": "0.0.1",
     "hubot-googl": "^1.1.0",
     "hubot-google-images": "^0.2.1",
     "hubot-google-translate": "^0.2.0",
