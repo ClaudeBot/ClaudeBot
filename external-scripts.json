@@ -8,6 +8,7 @@
     "hubot-google-translate",
     "hubot-help",
     "hubot-hitbox",
+    "hubot-links",
     "hubot-mail",
     "hubot-paste",
     "hubot-redis-brain",
