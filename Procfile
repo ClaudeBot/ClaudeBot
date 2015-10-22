@@ -1,1 +1,1 @@
-web: bin/hubot -a telegram-bot
+telegram: bin/hubot -a telegram-bot
