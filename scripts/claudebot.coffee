@@ -39,8 +39,6 @@ module.exports = (robot) ->
 
     # Restrict commands
     if process.env.HUBOT_AUTH_ADMIN?
-        admins = process.env.HUBOT_AUTH_ADMIN.split ','
-
         robot.respond /(.*)/i, (msg) ->
             return unless msg.match[1]
 
@@ -59,5 +57,5 @@ module.exports = (robot) ->
             msg.reply "The key you have entered (\"#{key}\") does not exist."
             return
 
-        delete robot.brain.data[key]
+        robot.brain.data[key] = undefined
         msg.reply "\"#{key}\" and all of its contents have been wiped from the brain."

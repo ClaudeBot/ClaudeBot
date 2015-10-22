@@ -42,7 +42,7 @@ If you would like to change the bot's name (currently set to ClaudeBot), modify 
 
 ClaudeBot's [brain data](https://hubot.github.com/docs/scripting/#persistence) (in-memory key-value store) is frequently synchronised to and from a Redis store ([RedisLabs](https://redislabs.com/)). Scripts may use `robot.brain` to store and retrieve long-term data (e.g. user information).
 
-It previously relied on [Dweet.io](http://dweet.io/) for persistence, but is has since been [deprecated](scripts/dweet-brain.disabled) as it is not practical in the long-run.
+It previously relied on [Dweet.io](http://dweet.io/) for persistence, but it has since been [deprecated](scripts/dweet-brain.disabled) as it is not practical in the long-run.
 
 
 ## Environment Variables
@@ -77,11 +77,11 @@ ClaudeBot neither relies on nor supports the old [`hubot-scripts`](https://githu
 
 Refer to the [installed / external scripts'](https://github.com/ClaudeBot/ClaudeBot/blob/master/external-scripts.json) documentation (i.e. their `README`) or visit the [online help page](http://bot.fyianlai.com/ClaudeBot/help) for ClaudeBot.
 
-Assuming your copy of the bot is online, its own help page is located at `localhost:8080/BotName/help` by default. Also, typing `! help` (on your bot's adapter interface, e.g. Shell, IRC, Slack, etc) will return a list of available commands. `!` is an alias for `ClaudeBot`, and may be used interchangeably.
+Assuming your copy of the bot is online, its own help page is located at `localhost:8080/BotName/help` by default. _The default web port is `5000` if it is executed using [foreman](http://ddollar.github.io/foreman/), i.e. [`Procfile`](Procfile)_. Also, typing `! help` (on your bot's adapter interface, e.g. Shell, IRC, Slack, etc) will return a list of available commands. `!` is an alias for `ClaudeBot`, and may be used interchangeably.
 
 
 ## Community
 
 We love developing scripts, and improvements for Hubot. It is also a good learning experience and we welcome you to join us!
 
-We are available to help you at [FyreChat's](http://www.fyrechat.net/) #sandbox channel. Feel free to open up issues or pull requests. Comments, feature requests, bug reports, questions, etc will be entertained.
+We are available to help you at [FyreChat's](http://www.fyrechat.net/) __#sandbox__ channel. Feel free to open up issues or pull requests. Comments, feature requests, bug reports, questions, etc will be entertained.
