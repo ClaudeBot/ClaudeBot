@@ -40,7 +40,7 @@
     "hubot-redis-brain": "0.0.3",
     "hubot-rules": "^0.1.0",
     "hubot-steam-webapi": "^2.1.5",
-    "hubot-telegram-bot": "^1.0.0",
+    "hubot-telegram-bot": "^1.2.0",
     "hubot-twitch": "^1.1.1",
     "hubot-wikipedia": "0.0.1",
     "hubot-youtube": "^1.0.0",
