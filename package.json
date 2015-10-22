@@ -1,6 +1,6 @@
 {
   "name": "claudebot",
-  "version": "2.4.7",
+  "version": "2.5.0",
   "private": "true",
   "author": "Ian Lai <os@fyianlai.com>",
   "contributors": [
@@ -36,7 +36,7 @@
     "hubot-hitbox": "^1.1.0",
     "hubot-links": "0.0.1",
     "hubot-mail": "^1.1.0",
-    "hubot-paste": "^2.2.4",
+    "hubot-paste": "^2.3.0",
     "hubot-redis-brain": "0.0.3",
     "hubot-rules": "^0.1.0",
     "hubot-steam-webapi": "^2.1.5",
