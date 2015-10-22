@@ -10,4 +10,4 @@ then
     export NODE_PATH=$NODE_PATH:./node_modules
 fi
 
-exec node_modules/.bin/hubot --name "ClaudeBot" --alias "!" "$@"
+exec node_modules/.bin/hubot --name "ClaudeBot" "$@"
