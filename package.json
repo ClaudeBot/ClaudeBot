@@ -1,6 +1,6 @@
 {
   "name": "claudebot",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "private": "true",
   "author": "Ian Lai <os@fyianlai.com>",
   "contributors": [
@@ -45,7 +45,7 @@
     "hubot-wikipedia": "0.0.1",
     "hubot-youtube": "^1.0.0",
     "hubot-youtube-info": "^0.2.0",
-    "moment": "^2.10.0",
+    "moment": "^2.11.2",
     "underscore": "^1.8.0"
   },
   "engines": {
