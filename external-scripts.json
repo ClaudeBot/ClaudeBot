@@ -10,6 +10,7 @@
     "hubot-help",
     "hubot-hitbox",
     "hubot-links",
+    "hubot-longtext",
     "hubot-mail",
     "hubot-paste",
     "hubot-redis-brain",
@@ -18,6 +19,6 @@
     "hubot-twitch",
     "hubot-wikipedia",
     "hubot-youtube",
-    "hubot-youtube-info"
+    "hubot-youtube-info",
     "hubot-youtube-tracker"
 ]
