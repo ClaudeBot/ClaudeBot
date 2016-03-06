@@ -29,6 +29,9 @@ adminOnly = [
     'show users'
     'fake event'
     'wipe'
+    'cc new-channel'
+    'cc new-global'
+    'cc remove'
 ]
 
 module.exports = (robot) ->
