@@ -46,6 +46,7 @@
     "hubot-wikipedia": "0.0.3",
     "hubot-youtube": "^1.0.0",
     "hubot-youtube-info": "^0.2.0",
+    "hubot-youtube-tracker": "0.0.2",
     "moment": "^2.11.2",
     "underscore": "^1.8.0"
   },
