@@ -12,6 +12,7 @@
     "hubot-links",
     "hubot-longtext",
     "hubot-mail",
+    "hubot-manpages",
     "hubot-paste",
     "hubot-redis-brain",
     "hubot-rules",
