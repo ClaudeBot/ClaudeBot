@@ -1,6 +1,6 @@
 {
   "name": "claudebot",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "private": "true",
   "author": "Ian Lai <os@fyianlai.com>",
   "contributors": [
@@ -9,12 +9,7 @@
     "GitHub Inc."
   ],
   "description": "A general-purpose IRC bot powered by Github's Hubot.",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://ian.mit-license.org/"
-    }
-  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ClaudeBot/ClaudeBot.git"
