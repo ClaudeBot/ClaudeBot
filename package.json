@@ -28,7 +28,7 @@
     "hubot-ab": "^1.1.1",
     "hubot-archive-today": "^1.1.8",
     "hubot-auth": "^1.2.0",
-    "hubot-cc": "^0.0.4",
+    "hubot-cc": "^0.0.5",
     "hubot-diagnostics": "0.0.1",
     "hubot-googl": "^1.1.0",
     "hubot-google-images": "^0.2.1",
