@@ -16,6 +16,7 @@
     "hubot-paste",
     "hubot-redis-brain",
     "hubot-rules",
+    "hubot-search",
     "hubot-steam-webapi",
     "hubot-twitch",
     "hubot-wikipedia",
