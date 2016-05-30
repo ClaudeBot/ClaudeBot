@@ -39,7 +39,7 @@
     "hubot-redis-brain": "^0.0.3",
     "hubot-rules": "^0.1.0",
     "hubot-search": "^0.0.3",
-    "hubot-steam-webapi": "^2.1.5",
+    "hubot-steam-webapi": "^2.2.0",
     "hubot-twitch": "^1.1.1",
     "hubot-wikipedia": "^0.0.4",
     "hubot-youtube": "^1.0.0",
