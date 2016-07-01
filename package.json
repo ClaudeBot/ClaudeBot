@@ -38,7 +38,7 @@
     "hubot-paste": "^2.3.0",
     "hubot-redis-brain": "^0.0.3",
     "hubot-rules": "^0.1.0",
-    "hubot-search": "^0.0.4",
+    "hubot-search": "^0.1.0",
     "hubot-steam-webapi": "^2.2.0",
     "hubot-twitch": "^2.0.0",
     "hubot-wikipedia": "^0.0.4",
