@@ -49,7 +49,7 @@
     "underscore": "^1.8.0"
   },
   "engines": {
-    "node": "0.10.x",
+    "node": ">= 4",
     "npm": ">= 1.1.x"
   }
 }
